@@ -23,6 +23,29 @@ good to go.  Installation via MELPA will be supported eventually, too.
 Usage
 -----
 
+Use ``M-x eyebrowse-mode`` to enable ``eyebrowse`` interactively.  If
+you want to enable it automatically on startup, add ``(eyebrowse-mode
+t)`` to your init file (either ``~/.emacs`` or
+``~/.emacs.d/init.el``).
+
+The default key bindings are:
+
+============= ================================
+Key bind      Function
+============= ================================
+``C-c C-' <`` Switch to previous window config
+``C-c C-' >`` Switch to next window config
+``C-c C-' \`
+``            Close current window config
+``C-c C-' '`` Switch to last window config
+``C-c C-' 0`` Switch to window config ``0``
+\...          ...
+``C-c C-' 9`` Switch to window config ``9``
+============= ================================
+
+Further Customization
+---------------------
+
 Name
 ----
 
