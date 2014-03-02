@@ -107,7 +107,7 @@ If t, switching to the same window config as
     (define-key map (kbd "C-c C-' <") 'eyebrowse-prev-window-config)
     (define-key map (kbd "C-c C-' >") 'eyebrowse-next-window-config)
     (define-key map (kbd "C-c C-' '") 'eyebrowse-last-window-config)
-    (define-key map (kbd "C-c C-' `") 'eyebrowse-close-window-config)
+    (define-key map (kbd "C-c C-' \"") 'eyebrowse-close-window-config)
     (-dotimes 10 (lambda (n)
                    (define-key map (kbd (s-concat "C-c C-' "
                                                   (number-to-string n)))
@@ -250,8 +250,8 @@ is detected, it will bind gt, gT, gc and zx, too."
   (let ((map eyebrowse-mode-map))
     (define-key map (kbd "C-<") 'eyebrowse-prev-window-config)
     (define-key map (kbd "C->") 'eyebrowse-next-window-config)
-    (define-key map (kbd "C-`") 'eyebrowse-close-window-config)
     (define-key map (kbd "C-'") 'eyebrowse-last-window-config)
+    (define-key map (kbd "C-\"") 'eyebrowse-close-window-config)
     (when (fboundp 'evil-mode)
       (define-key evil-motion-state-map (kbd "gt")
         'eyebrowse-next-window-config)
