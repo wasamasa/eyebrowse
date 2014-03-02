@@ -30,18 +30,17 @@ t)`` to your init file (either ``~/.emacs`` or
 
 The default key bindings are:
 
-============= ================================
+============== ================================
 Key bind      Function
-============= ================================
-``C-c C-' <`` Switch to previous window config
-``C-c C-' >`` Switch to next window config
-``C-c C-' \`
-``            Close current window config
-``C-c C-' '`` Switch to last window config
-``C-c C-' 0`` Switch to window config ``0``
-\...          ...
-``C-c C-' 9`` Switch to window config ``9``
-============= ================================
+============== ================================
+``C-c C-' <``  Switch to previous window config
+``C-c C-' >``  Switch to next window config
+``C-c C-' \``` Close current window config
+``C-c C-' '``  Switch to last window config
+``C-c C-' 0``  Switch to window config ``0``
+\...           ...
+``C-c C-' 9``  Switch to window config ``9``
+============== ================================
 
 Further Customization
 ---------------------
