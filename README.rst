@@ -6,10 +6,10 @@ eyebrowse-mode
 About
 -----
 
-`eyebrowse` is a global minor mode for Emacs that allows you to manage
+``eyebrowse`` is a global minor mode for Emacs that allows you to manage
 your window configurations in a simple manner.  It displays their
 current state in the modeline by default.  The behaviour is modeled
-after `ranger <http://ranger.nongnu.org/>`_, a file manager written in
+after ```ranger`` <http://ranger.nongnu.org/>`_, a file manager written in
 Python.
 
 Screenshots
