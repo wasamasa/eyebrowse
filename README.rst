@@ -1,7 +1,7 @@
 eyebrowse-mode
 ==============
 
-.. image:: raw/HEAD/eyebrows.gif
+.. image:: /wasamasa/eyebrowse-mode/raw/HEAD/eyebrows.gif
 
 About
 -----
