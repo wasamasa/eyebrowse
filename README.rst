@@ -1,7 +1,7 @@
 eyebrowse-mode
 ==============
 
-.. image:: img/eyebrows.gif
+.. image:: eyebrows.gif
 
 About
 -----
