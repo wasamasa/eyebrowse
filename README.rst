@@ -35,7 +35,8 @@ Key bind      Function
 ============== ================================
 ``C-c C-' <``  Switch to previous window config
 ``C-c C-' >``  Switch to next window config
-``C-c C-' \``` Close current window config
+
+``C-c C-' \`‍`` Close current window config
 ``C-c C-' '``  Switch to last window config
 ``C-c C-' 0``  Switch to window config ``0``
 \...           ...
