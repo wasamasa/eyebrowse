@@ -242,6 +242,7 @@ another appropriate window config."
       (eyebrowse-next-window-config))
     (eyebrowse-delete-window-config eyebrowse-last-slot)))
 
+;;;###autoload
 (defun eyebrowse-setup-opinionated-keys ()
   "Set up more opinionated key bindings for using eyebrowse.
 
@@ -265,7 +266,7 @@ is detected, it will bind gt, gT, gc and zx, too."
                    (define-key map (kbd (s-concat "M-" (number-to-string n)))
                      (lambda () (interactive)
                        (eyebrowse-switch-to-window-config n)))))))
-
+;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
 This global minor mode provides a set of keybindings for
