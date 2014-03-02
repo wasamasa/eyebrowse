@@ -45,6 +45,36 @@ Key bind       Function
 Further Customization
 ---------------------
 
+Use ``M-x customize-group RET eyebrowse`` for a list of customizable
+options.  The more interesting ones would be
+``eyebrowse-wrap-around-p`` and ``eyebrowse-switch-back-and-forth-p``
+which affect both wrap around and lazier switching.
+
+If you're not happy with the default keybindings, a riskier set can be
+enabled additionally either by executing ``M-:
+(eyebrowse-setup-opinionated-keys)`` interactively or inserting
+``(eyebrowse-setup-opinionated-keys)`` in your init file.  If the
+function detects the `evil <https://gitorious.org/evil>`_ package, it
+will enable extra key bindings for it as well.
+
+The extra key bindings are:
+
+======== ================================
+Key bind Function
+======== ================================
+``C-<``  Switch to previous window config
+``gT``   ...
+``C->``  Switch to next window config
+``gt``   ...
+``C-'``  Switch to last window config
+``zx``   ...
+``C-"``  Close current window config
+``gc``   ...
+``M-0``  Switch to window config ``0``
+\...     ...
+``M-9``  Switch to window config ``9``
+======== ================================
+
 Name
 ----
 
