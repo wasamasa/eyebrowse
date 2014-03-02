@@ -31,7 +31,7 @@ t)`` to your init file (either ``~/.emacs`` or
 The default key bindings are:
 
 ============== ================================
-Key bind      Function
+Key bind       Function
 ============== ================================
 ``C-c C-' <``  Switch to previous window config
 ``C-c C-' >``  Switch to next window config
