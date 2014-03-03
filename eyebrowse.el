@@ -49,9 +49,9 @@ manager."
 (defcustom eyebrowse-lighter " ¬_¬"
   "Lighter for `eyebrowse-minor-mode'.")
 
-(defface eyebrowse-mode-line-brackets
+(defface eyebrowse-mode-line-delimiters
   '((t (:foreground "grey")))
-  "Face for the mode line indicator brackets.")
+  "Face for the mode line indicator delimiters.")
 
 (defface eyebrowse-mode-line-separator
   '((t (:foreground "grey")))
