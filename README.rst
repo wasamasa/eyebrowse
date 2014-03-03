@@ -15,9 +15,9 @@ Python.
 Installation
 ------------
 
-For now installation is only supported via `quelpa
-<https://github.com/quelpa/quelpa>`_.  Use ``M-: (quelpa 'eyebrowse)``
-and you should be good to go.
+Install via `quelpa <https://github.com/quelpa/quelpa>`_ with ``M-:
+(quelpa 'eyebrowse)`` or install the package from `MELPA
+<http://melpa.milkbox.net/>`_.
 
 Usage
 -----
