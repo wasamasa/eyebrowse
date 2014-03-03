@@ -17,9 +17,8 @@ Installation
 
 For now installation is only supported via `quelpa
 <https://github.com/quelpa/quelpa>`_.  Use ``M-: (quelpa '(eyebrowse
-:fetcher git :url "https://github.com/wasamasa/eyebrowse"))`` and
-you should be good to go.  Installation via MELPA will be supported
-eventually, too.
+:fetcher github :repo "wasamasa/eyebrowse"))`` and you should be good
+to go.  Installation via MELPA will be supported eventually, too.
 
 Usage
 -----
