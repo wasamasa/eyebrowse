@@ -126,8 +126,8 @@ If t, switching to the same window config as
   "Insert ELEMENT in the list of window configs.
 This function keeps the sortedness intact."
   (setq eyebrowse-window-configs
-        (-sort (lambda (a b) (< (car a) (car b)))
-               (cons element eyebrowse-window-configs))))
+        (--sort (< (car it) (car other))
+                (cons element eyebrowse-window-configs))))
 
 (defun eyebrowse-update-window-config-element (old-element new-element)
   "Replace OLD-ELEMENT with NEW-ELEMENT in the window config list."
@@ -272,17 +272,16 @@ is detected, it will bind gt, gT, gc and zx, too."
                    (define-key map (kbd (s-concat "M-" (number-to-string n)))
                      (lambda () (interactive)
                        (eyebrowse-switch-to-window-config n)))))))
+
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
 This global minor mode provides a set of keybindings for
 switching window configurations.  It tries mimicking the tab
 behaviour of `ranger`, a file manager."
-
   :lighter eyebrowse-lighter
   :keymap eyebrowse-mode-map
   :global t
-
   (if eyebrowse-mode
       (add-to-list 'mode-line-misc-info
                    '(:eval (eyebrowse-update-mode-line)) t)
