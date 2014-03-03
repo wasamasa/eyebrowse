@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; no-byte-compile: t; -*-
 
 ;;; eyebrowse.el --- Switch between window configurations easily.
 
@@ -108,12 +108,11 @@ If t, switching to the same window config as
     (define-key map (kbd "C-c C-' >") 'eyebrowse-next-window-config)
     (define-key map (kbd "C-c C-' '") 'eyebrowse-last-window-config)
     (define-key map (kbd "C-c C-' \"") 'eyebrowse-close-window-config)
-    (eval-when-compile
-      (-dotimes 10 (lambda (n)
-                     (define-key map (kbd (s-concat "C-c C-' "
-                                                    (number-to-string n)))
-                       (lambda () (interactive)
-                         (eyebrowse-switch-to-window-config n))))))
+    (-dotimes 10 (lambda (n)
+                   (define-key map (kbd (s-concat "C-c C-' "
+                                                  (number-to-string n)))
+                     (lambda () (interactive)
+                       (eyebrowse-switch-to-window-config n)))))
     map)
   "Current key map.  Can be set up with `eyebrowse-setup-keys'.")
 
@@ -263,11 +262,10 @@ is detected, it will bind gt, gT, gc and zx, too."
         'eyebrowse-close-window-config)
       (define-key evil-motion-state-map (kbd "zx")
         'eyebrowse-last-window-config))
-    (eval-when-compile
-      (-dotimes 10 (lambda (n)
-                     (define-key map (kbd (s-concat "M-" (number-to-string n)))
-                       (lambda () (interactive)
-                         (eyebrowse-switch-to-window-config n))))))))
+    (-dotimes 10 (lambda (n)
+                   (define-key map (kbd (s-concat "M-" (number-to-string n)))
+                     (lambda () (interactive)
+                       (eyebrowse-switch-to-window-config n)))))))
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
