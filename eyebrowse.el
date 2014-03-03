@@ -66,7 +66,13 @@ manager."
   "Face for the active items of the mode line indicator.")
 
 (defcustom eyebrowse-mode-line-separator ", "
-  "Separator for the mode line indicator.")
+  "Separator of the mode line indicator.")
+
+(defcustom eyebrowse-mode-line-left-delimiter "["
+  "Left delimiter of the mode line indicator.")
+
+(defcustom eyebrowse-mode-line-right-delimiter "]"
+  "Right delimiter of the mode line indicator.")
 
 (defcustom eyebrowse-mode-line-style 'smart
   "The mode line indicator style may be one of the following:
@@ -171,8 +177,10 @@ last window config."
 
 (defun eyebrowse-update-mode-line ()
   "Return a string representation of the window configurations."
-  (let* ((left-bracket (propertize "[" 'face 'eyebrowse-mode-line-brackets))
-         (right-bracket (propertize "]" 'face 'eyebrowse-mode-line-brackets))
+  (let* ((left-delimiter (propertize eyebrowse-mode-line-left-delimiter
+                                     'face 'eyebrowse-mode-line-delimiters))
+         (right-delimiter (propertize eyebrowse-mode-line-right-delimiter
+                                      'face 'eyebrowse-mode-line-delimiters))
          (separator (propertize eyebrowse-mode-line-separator
                                 'face 'eyebrowse-mode-line-separator))
          (current-slot (number-to-string eyebrowse-current-slot))
@@ -185,12 +193,12 @@ last window config."
              (or (eq eyebrowse-mode-line-style 'always)
                  (and (eq eyebrowse-mode-line-style 'smart)
                       (> (length eyebrowse-window-configs) 1))))
-        (s-concat left-bracket
+        (s-concat left-delimiter
                   (s-join separator
                           (-replace-at (-elem-index current-slot
                                                     window-config-slots)
                                        active-item window-config-slots))
-                  right-bracket)
+                  right-delimiter)
       "")))
 
 ;; --- public functions ------------------------------------------------------
