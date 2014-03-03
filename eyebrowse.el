@@ -102,12 +102,12 @@ If t, switching to the same window config as
 
 (defvar eyebrowse-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-' <") 'eyebrowse-prev-window-config)
-    (define-key map (kbd "C-c C-' >") 'eyebrowse-next-window-config)
-    (define-key map (kbd "C-c C-' '") 'eyebrowse-last-window-config)
-    (define-key map (kbd "C-c C-' \"") 'eyebrowse-close-window-config)
+    (define-key map (kbd "C-c C-w <") 'eyebrowse-prev-window-config)
+    (define-key map (kbd "C-c C-w >") 'eyebrowse-next-window-config)
+    (define-key map (kbd "C-c C-w '") 'eyebrowse-last-window-config)
+    (define-key map (kbd "C-c C-w \"") 'eyebrowse-close-window-config)
     (-dotimes 10 (lambda (n)
-                   (define-key map (kbd (s-concat "C-c C-' "
+                   (define-key map (kbd (s-concat "C-c C-w "
                                                   (number-to-string n)))
                      (lambda () (interactive)
                        (eyebrowse-switch-to-window-config n)))))

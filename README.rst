@@ -32,13 +32,13 @@ The default key bindings are:
 ============== ================================
 Key bind       Function
 ============== ================================
-``C-c C-' <``  Switch to previous window config
-``C-c C-' >``  Switch to next window config
-``C-c C-' '``  Switch to last window config
-``C-c C-' "``  Close current window config
-``C-c C-' 0``  Switch to window config ``0``
+``C-c C-w <``  Switch to previous window config
+``C-c C-w >``  Switch to next window config
+``C-c C-w '``  Switch to last window config
+``C-c C-w "``  Close current window config
+``C-c C-w 0``  Switch to window config ``0``
 \...           ...
-``C-c C-' 9``  Switch to window config ``9``
+``C-c C-w 9``  Switch to window config ``9``
 ============== ================================
 
 Further Customization
