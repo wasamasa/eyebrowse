@@ -5,7 +5,7 @@
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
 ;; Version: 0.1
-;; Package-Requires: ((dash "2.4.0") (s "1.4.0"))
+;; Package-Requires: ((dash "2.4.0") (s "1.4.0") (cl-lib "0.5"))
 ;; Keywords: convenience
 
 ;; This file is NOT part of GNU Emacs.
@@ -36,6 +36,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 'dash)
 (require 's)
 
@@ -142,7 +143,7 @@ This function keeps the sortedness intact."
   (let ((match (assq slot eyebrowse-window-configs)))
     (when match
       (let ((window-config (cadr match))
-            (point (caddr match)))
+            (point (cl-caddr match)))
         (set-window-configuration window-config)
         (goto-char point)))))
 
