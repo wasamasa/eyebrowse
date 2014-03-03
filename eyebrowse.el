@@ -50,15 +50,15 @@ manager."
   "Lighter for `eyebrowse-minor-mode'.")
 
 (defface eyebrowse-mode-line-delimiters
-  '((t (:inherit default)))
+  '((t (nil)))
   "Face for the mode line indicator delimiters.")
 
 (defface eyebrowse-mode-line-separator
-  '((t (:inherit default)))
+  '((t (nil)))
   "Face for the mode line indicator separator.")
 
 (defface eyebrowse-mode-line-inactive
-  '((t (:inherit default)))
+  '((t (nil)))
   "Face for the inactive items of the mode line indicator.")
 
 (defface eyebrowse-mode-line-active
