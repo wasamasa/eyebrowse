@@ -60,21 +60,17 @@ will enable extra key bindings for it as well.
 
 The extra key bindings are:
 
-======== ================================
-Key bind Function
-======== ================================
-``C-<``  Switch to previous window config
-``gT``   ...
-``C->``  Switch to next window config
-``gt``   ...
-``C-'``  Switch to last window config
-``zx``   ...
-``C-"``  Close current window config
-``gc``   ...
-``M-0``  Switch to window config ``0``
-\...     ...
-``M-9``  Switch to window config ``9``
-======== ================================
+=============== ================================
+Key bind        Function
+=============== ================================
+``C-<``, ``gT`` Switch to previous window config
+``C->``, ``gt`` Switch to next window config
+``C-'``, ``zx`` Switch to last window config
+``C-"``, ``gc`` Close current window config
+``M-0``         Switch to window config ``0``
+\...            ...
+``M-9``         Switch to window config ``9``
+=============== ================================
 
 Name
 ----
