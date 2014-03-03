@@ -44,35 +44,48 @@
 (defgroup eyebrowse nil
   "A window configuration switcher modeled after the ranger file
 manager."
-  :group 'convenience)
+  :group 'convenience
+  :prefix "eyebrowse-")
 
 (defcustom eyebrowse-lighter " ¬_¬"
-  "Lighter for `eyebrowse-minor-mode'.")
+  "Lighter for `eyebrowse-minor-mode'."
+  :type 'string
+  :group 'eyebrowse)
 
 (defface eyebrowse-mode-line-delimiters
   '((t (nil)))
-  "Face for the mode line indicator delimiters.")
+  "Face for the mode line indicator delimiters."
+  :group 'eyebrowse)
 
 (defface eyebrowse-mode-line-separator
   '((t (nil)))
-  "Face for the mode line indicator separator.")
+  "Face for the mode line indicator separator."
+  :group 'eyebrowse)
 
 (defface eyebrowse-mode-line-inactive
   '((t (nil)))
-  "Face for the inactive items of the mode line indicator.")
+  "Face for the inactive items of the mode line indicator."
+  :group 'eyebrowse)
 
 (defface eyebrowse-mode-line-active
   '((t (:inherit mode-line-emphasis)))
-  "Face for the active items of the mode line indicator.")
+  "Face for the active items of the mode line indicator."
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-mode-line-separator ", "
-  "Separator of the mode line indicator.")
+  "Separator of the mode line indicator."
+  :type 'string
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-mode-line-left-delimiter "["
-  "Left delimiter of the mode line indicator.")
+  "Left delimiter of the mode line indicator."
+  :type 'string
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-mode-line-right-delimiter "]"
-  "Right delimiter of the mode line indicator.")
+  "Right delimiter of the mode line indicator."
+  :type 'string
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-mode-line-style 'smart
   "The mode line indicator style may be one of the following:
@@ -81,21 +94,31 @@ manager."
 
 'smart: Hide when only one window config.
 
-'always: Always show.")
+'always: Always show."
+  :type '(choice (const :tag "Hide" hide)
+                 (const :tag "Smart" smart)
+                 (const :tag "Always" always))
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-restore-point-p t
   "Restore point, too?
-If t, restore point.")
+If t, restore point."
+  :type 'boolean
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-wrap-around-p nil
   "Wrap around when switching to the next/previous window config?
-If t, wrap around.")
+If t, wrap around."
+  :type 'boolean
+  :group 'eyebrowse)
 
 (defcustom eyebrowse-switch-back-and-forth-p nil
   "Switch to the last window automatically?
 If t, switching to the same window config as
 `eyebrowse-current-window-config', switches to
-`eyebrowse-last-window-config'.")
+`eyebrowse-last-window-config'."
+  :type 'boolean
+  :group 'eyebrowse)
 
 (defvar eyebrowse-last-slot 1
   "Internal variable storing the last window config slot.")
