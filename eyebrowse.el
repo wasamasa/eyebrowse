@@ -1,4 +1,4 @@
-;;; eyebrowse.el --- Switch between window configurations easily.
+;;; eyebrowse.el --- Easy window config switching -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2014 Vasilij Schneidermann <v.schneidermann@gmail.com>
 
@@ -280,10 +280,6 @@ behaviour of `ranger`, a file manager."
                    '(:eval (eyebrowse-update-mode-line)) t)
     (setq mode-line-misc-info
           (remove '(:eval (eyebrowse-update-mode-line)) mode-line-misc-info))))
-
-;; Local Variables:
-;; lexical-binding: t
-;; End:
 
 (provide 'eyebrowse)
 
