@@ -108,11 +108,12 @@ If t, switching to the same window config as
     (define-key map (kbd "C-c C-' >") 'eyebrowse-next-window-config)
     (define-key map (kbd "C-c C-' '") 'eyebrowse-last-window-config)
     (define-key map (kbd "C-c C-' \"") 'eyebrowse-close-window-config)
-    (-dotimes 10 #'(lambda (n)
+    (eval-when-compile
+      (-dotimes 10 (lambda (n)
                      (define-key map (kbd (s-concat "C-c C-' "
                                                     (number-to-string n)))
-                       #'(lambda () (interactive)
-                           (eyebrowse-switch-to-window-config n)))))
+                       (lambda () (interactive)
+                         (eyebrowse-switch-to-window-config n))))))
     map)
   "Current key map.  Can be set up with `eyebrowse-setup-keys'.")
 
@@ -122,7 +123,7 @@ If t, switching to the same window config as
   "Insert ELEMENT in the list of window configs.
 This function keeps the sortedness intact."
   (setq eyebrowse-window-configs
-        (-sort #'(lambda (a b) (< (car a) (car b)))
+        (-sort (lambda (a b) (< (car a) (car b)))
                (cons element eyebrowse-window-configs))))
 
 (defun eyebrowse-update-window-config-element (old-element new-element)
@@ -180,8 +181,8 @@ last window config."
          (current-slot (number-to-string eyebrowse-current-slot))
          (active-item (propertize current-slot
                                   'face 'eyebrowse-mode-line-active))
-         (window-config-slots (mapcar #'(lambda (item)
-                                          (number-to-string (car item)))
+         (window-config-slots (mapcar (lambda (item)
+                                        (number-to-string (car item)))
                                       eyebrowse-window-configs)))
     (if (and (not (eq eyebrowse-mode-line-style 'hide))
              (or (eq eyebrowse-mode-line-style 'always)
@@ -262,10 +263,11 @@ is detected, it will bind gt, gT, gc and zx, too."
         'eyebrowse-close-window-config)
       (define-key evil-motion-state-map (kbd "zx")
         'eyebrowse-last-window-config))
-    (-dotimes 10 #'(lambda (n)
+    (eval-when-compile
+      (-dotimes 10 (lambda (n)
                      (define-key map (kbd (s-concat "M-" (number-to-string n)))
-                       #'(lambda () (interactive)
-                           (eyebrowse-switch-to-window-config n)))))))
+                       (lambda () (interactive)
+                         (eyebrowse-switch-to-window-config n))))))))
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
