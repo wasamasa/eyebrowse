@@ -142,7 +142,7 @@ This function keeps the sortedness intact."
   (let ((match (assq slot eyebrowse-window-configs)))
     (when match
       (let ((window-config (cadr match))
-            (point (caddr match)))
+            (point (nth 2 match)))
         (set-window-configuration window-config)
         (goto-char point)))))
 
