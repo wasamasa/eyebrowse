@@ -1,5 +1,5 @@
-eyebrowse-mode
-==============
+eyebrowse
+=========
 
 .. image:: http://bitbucket.org/wasamasa/eyebrowse/raw/HEAD/eyebrows.gif
 
