@@ -1,7 +1,7 @@
 eyebrowse
 =========
 
-.. image:: http://bitbucket.org/wasamasa/eyebrowse/raw/HEAD/eyebrows.gif
+.. image:: https://raw.github.com/wasamasa/eyebrowse/master/eyebrows.gif
 
 About
 -----
@@ -17,7 +17,7 @@ Installation
 
 For now installation is only supported via `quelpa
 <https://github.com/quelpa/quelpa>`_.  Use ``M-: (quelpa '(eyebrowse
-:fetcher git :url "https://bitbucket.org/wasamasa/eyebrowse"))`` and
+:fetcher git :url "https://github.com/wasamasa/eyebrowse"))`` and
 you should be good to go.  Installation via MELPA will be supported
 eventually, too.
 
