@@ -1,7 +1,7 @@
 eyebrowse
 =========
 
-.. image:: https://raw.github.com/wasamasa/eyebrowse/master/eyebrows.gif
+.. image:: https://raw.github.com/wasamasa/eyebrowse/master/img/eyebrows.gif
 
 About
 -----
@@ -11,6 +11,11 @@ your window configurations in a simple manner.  It displays their
 current state in the modeline by default.  The behaviour is modeled
 after `ranger <http://ranger.nongnu.org/>`_, a file manager written in
 Python.
+
+Screenshot
+----------
+
+.. image:: https://raw.github.com/wasamasa/eyebrowse/master/img/scrot.png
 
 Installation
 ------------
