@@ -188,15 +188,17 @@ This will save the current window config to
 `eyebrowse-switch-back-and-forth-p' is t and
 `eyebrowse-current-slot' equals SLOT, this will switch to the
 last window config."
-  (when (or (and eyebrowse-switch-back-and-forth-p
-                 (= eyebrowse-current-slot slot))
-            (/= eyebrowse-current-slot slot))
+  (when (and eyebrowse-switch-back-and-forth-p
+             (= eyebrowse-current-slot slot))
+      (setq slot eyebrowse-last-slot
+            eyebrowse-last-slot eyebrowse-current-slot))
+  (when (/= eyebrowse-current-slot slot))
     (eyebrowse-save-window-config eyebrowse-current-slot)
     (eyebrowse-load-window-config slot)
     (setq eyebrowse-last-slot eyebrowse-current-slot)
     (setq eyebrowse-current-slot slot)
     (eyebrowse-save-window-config eyebrowse-current-slot)
-    (eyebrowse-load-window-config eyebrowse-current-slot)))
+    (eyebrowse-load-window-config eyebrowse-current-slot))
 
 (defun eyebrowse-update-mode-line ()
   "Return a string representation of the window configurations."
