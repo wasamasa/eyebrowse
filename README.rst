@@ -17,6 +17,9 @@ Screenshot
 
 .. image:: https://raw.github.com/wasamasa/eyebrowse/master/img/scrot.png
 
+See the lighter and the modeline indicator at the right side of the
+bottom modeline?  That's what you get to see after enabling eyebrowse.
+
 Installation
 ------------
 
