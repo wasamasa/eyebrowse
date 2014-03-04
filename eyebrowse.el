@@ -32,7 +32,7 @@
 ;; `ranger`, a file manager.
 
 ;; See the README for more info:
-;; https://github.com/wasamasa/eyebrowse-mode
+;; https://github.com/wasamasa/eyebrowse
 
 ;;; Code:
 
