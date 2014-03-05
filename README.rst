@@ -27,13 +27,25 @@ Install via `quelpa <https://github.com/quelpa/quelpa>`_ with ``M-:
 (quelpa 'eyebrowse)`` or install the package from `MELPA
 <http://melpa.milkbox.net/>`_.
 
-Usage
------
+Quick Tutorial
+--------------
 
 Use ``M-x eyebrowse-mode`` to enable ``eyebrowse`` interactively.  If
 you want to enable it automatically on startup, add ``(eyebrowse-mode
 t)`` to your init file (either ``~/.emacs`` or
 ``~/.emacs.d/init.el``).
+
+You start with your current window config on slot 1.  Once you hit
+``C-c C-w 2``, you will see the modeline indicator appearing and
+showing slot 1 and 2 with slot 2 slightly emphasized.  Slot 1 has been
+saved automatically for you and contains your last window config.  Do
+something meaningful like a window split, then hit ``C-c C-w 1``.  The
+window config on slot 2 is saved and the window config from slot 1 is
+loaded.  Try switching back and forth between them with ``C-c C-w '``
+to get a feeling for how subsequent window manipulations are handled.
+
+Key bindings
+------------
 
 The default key bindings are:
 
@@ -77,6 +89,25 @@ Key bind        Function
 \...            ...
 ``M-9``         Switch to window config ``9``
 =============== ================================
+
+Internals
+---------
+
+This mode basically wraps what ``C-x r w`` and ``C-x r j`` do.  The
+difference is first, it saves and loads automatically for you upon
+switching slots, and second, it doesn't overwrite the general purpose
+registers.  What it does instead is keeping its own data structure (a
+list of lists containing slot, window config and point) and using it
+to provide some other convenience keybinds, such as jumping to the
+last window config or the next one available.
+
+Contributing
+------------
+
+If you find bugs, have suggestions or any other problems, feel free to
+report an issue on the issue tracker or hit me up on IRC, I'm always on
+``#emacs``.  Patches are welcome, too, just fork, work on a separate
+branch and open a pull request with it.
 
 Name
 ----
