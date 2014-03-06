@@ -47,6 +47,11 @@ manager."
   :group 'convenience
   :prefix "eyebrowse-")
 
+(defcustom eyebrowse-keymap-prefix (kbd "C-c C-w")
+  "Prefix key for key-bindings."
+  :type 'string
+  :group 'eyebrowse)
+
 (defcustom eyebrowse-lighter " ¬_¬"
   "Lighter for `eyebrowse-minor-mode'."
   :type 'string
@@ -131,15 +136,16 @@ If t, switching to the same window config as
 
 (defvar eyebrowse-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-w <") 'eyebrowse-prev-window-config)
-    (define-key map (kbd "C-c C-w >") 'eyebrowse-next-window-config)
-    (define-key map (kbd "C-c C-w '") 'eyebrowse-last-window-config)
-    (define-key map (kbd "C-c C-w \"") 'eyebrowse-close-window-config)
-    (-dotimes 10 (lambda (n)
-                   (define-key map (kbd (s-concat "C-c C-w "
-                                                  (number-to-string n)))
-                     (lambda () (interactive)
-                       (eyebrowse-switch-to-window-config n)))))
+    (let ((prefix-map (make-sparse-keymap)))
+      (define-key prefix-map (kbd "<") 'eyebrowse-prev-window-config)
+      (define-key prefix-map (kbd ">") 'eyebrowse-next-window-config)
+      (define-key prefix-map (kbd "'") 'eyebrowse-last-window-config)
+      (define-key prefix-map (kbd "\"") 'eyebrowse-close-window-config)
+      (-dotimes 10 (lambda (n)
+                     (define-key prefix-map (kbd (number-to-string n))
+                       (lambda () (interactive)
+                         (eyebrowse-switch-to-window-config n)))))
+      (define-key map eyebrowse-keymap-prefix prefix-map))
     map)
   "Current key map.  Can be set up with `eyebrowse-setup-keys'.")
 

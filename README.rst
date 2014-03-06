@@ -69,6 +69,9 @@ options.  The more interesting ones would be
 ``eyebrowse-wrap-around-p`` and ``eyebrowse-switch-back-and-forth-p``
 which affect both wrap around and lazier switching.
 
+The prefix for each binding defaults to ``C-c C-w``, but you can change
+it to something else by customizing ``eyebrowse-keymap-prefix``.
+
 If you're not happy with the default keybindings, a riskier set can be
 enabled additionally either by executing ``M-:
 (eyebrowse-setup-opinionated-keys)`` interactively or inserting
