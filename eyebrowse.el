@@ -147,7 +147,7 @@ If t, switching to the same window config as
                          (eyebrowse-switch-to-window-config n)))))
       (define-key map eyebrowse-keymap-prefix prefix-map))
     map)
-  "Current key map.  Can be set up with `eyebrowse-setup-keys'.")
+  "Initial key map for `eyebrowse-mode'.")
 
 ;; --- internal functions ----------------------------------------------------
 
