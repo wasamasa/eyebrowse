@@ -114,6 +114,18 @@ report an issue on the issue tracker or hit me up on IRC, I'm always on
 ``#emacs``.  Patches are welcome, too, just fork, work on a separate
 branch and open a pull request with it.
 
+Alternatives
+------------
+
+The two most popular window configuration packages are `elscreen
+<https://github.com/shosti/elscreen>`_ and `escreen
+<https://github.com/emacsmirror/escreen>`_.  Both are fairly old and
+have their share of bugs.  If you want something more recent with more
+features than eyebrowse provides (such as persistency, morphing,
+per-view buffers, \...), try `workgroups
+<https://github.com/tlh/workgroups.el>`_ or `workgroups2
+<https://github.com/pashinin/workgroups2>`_.
+
 Name
 ----
 
