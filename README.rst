@@ -114,6 +114,27 @@ report an issue on the issue tracker or hit me up on IRC, I'm always on
 ``#emacs``.  Patches are welcome, too, just fork, work on a separate
 branch and open a pull request with it.
 
+List of contributors:
+
+- `Lee Machin <https://github.com/leemachin>`_ made the prefix customizable.
+
+Changelog
+---------
+
+v0.1:
+
+- Initial Import
+- Added to MELPA
+
+v0.2:
+
+- Lots of bug fixes
+- Made prefix customizable
+- Added hooks
+- Improved `Evil <https://gitorious.org/evil>`_ integration
+- Added tag
+- Improved README
+
 Alternatives
 ------------
 
