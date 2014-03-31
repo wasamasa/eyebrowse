@@ -4,7 +4,7 @@
 
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
-;; Version: 0.2
+;; Version: 0.2.1
 ;; Package-Requires: ((dash "2.4.0") (s "1.4.0") (emacs "24"))
 ;; Keywords: convenience
 
@@ -273,7 +273,10 @@ switch COUNT window configs backwards and always wrap around."
   (let* ((match (assq eyebrowse-current-slot eyebrowse-window-configs))
          (index (-elem-index match eyebrowse-window-configs)))
     (if count
-        (eyebrowse-prev-window-config (when (> count 1) (eyebrowse-prev-window-config (1- count))))
+        (let ((eyebrowse-wrap-around-p t))
+          (eyebrowse-prev-window-config
+           (when (> count 1)
+             (eyebrowse-prev-window-config (1- count)))))
       (when index
         (if (> index 0)
             (eyebrowse-switch-to-window-config
