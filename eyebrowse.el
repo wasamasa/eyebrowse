@@ -246,35 +246,41 @@ last window config."
 
 ;; --- public functions ------------------------------------------------------
 
-(defun eyebrowse-next-window-config ()
+(defun eyebrowse-next-window-config (count)
   "Switch to the next available window config.
 If `eyebrowse-wrap-around-p' is t, this will switch from the last
-to the first one."
-  (interactive)
+to the first one.  When used with a numerical argument, switch to
+window config COUNT."
+  (interactive "P")
   (let* ((match (assq eyebrowse-current-slot eyebrowse-window-configs))
          (index (-elem-index match eyebrowse-window-configs)))
-    (when index
-      (if (< (1+ index) (length eyebrowse-window-configs))
-          (eyebrowse-switch-to-window-config
-           (car (nth (1+ index) eyebrowse-window-configs)))
-        (when eyebrowse-wrap-around-p
-          (eyebrowse-switch-to-window-config
-           (caar eyebrowse-window-configs)))))))
+    (if count
+        (eyebrowse-switch-to-window-config count)
+      (when index
+        (if (< (1+ index) (length eyebrowse-window-configs))
+            (eyebrowse-switch-to-window-config
+             (car (nth (1+ index) eyebrowse-window-configs)))
+          (when eyebrowse-wrap-around-p
+            (eyebrowse-switch-to-window-config
+             (caar eyebrowse-window-configs))))))))
 
-(defun eyebrowse-prev-window-config ()
+(defun eyebrowse-prev-window-config (count)
   "Switch to the previous available window config.
 If `eyebrowse-wrap-around-p' is t, this will switch from the
-first to the last one."
-  (interactive)
+first to the last one.  When used with a numerical argument,
+switch COUNT window configs backwards and always wrap around."
+  (interactive "P")
   (let* ((match (assq eyebrowse-current-slot eyebrowse-window-configs))
          (index (-elem-index match eyebrowse-window-configs)))
-    (when index
-      (if (> index 0)
-          (eyebrowse-switch-to-window-config
-           (car (nth (1- index) eyebrowse-window-configs)))
-        (when eyebrowse-wrap-around-p
-          (eyebrowse-switch-to-window-config
-           (caar (last eyebrowse-window-configs))))))))
+    (if count
+        (eyebrowse-prev-window-config (when (> count 1) (eyebrowse-prev-window-config (1- count))))
+      (when index
+        (if (> index 0)
+            (eyebrowse-switch-to-window-config
+             (car (nth (1- index) eyebrowse-window-configs)))
+          (when eyebrowse-wrap-around-p
+            (eyebrowse-switch-to-window-config
+             (caar (last eyebrowse-window-configs)))))))))
 
 (defun eyebrowse-last-window-config ()
   "Switch to the last window config."
@@ -289,8 +295,8 @@ another appropriate window config."
   (when (> (length eyebrowse-window-configs) 1)
     (if (equal (assq eyebrowse-current-slot eyebrowse-window-configs)
                (car (last eyebrowse-window-configs)))
-        (eyebrowse-prev-window-config)
-      (eyebrowse-next-window-config))
+        (eyebrowse-prev-window-config nil)
+      (eyebrowse-next-window-config nil))
     (eyebrowse-delete-window-config eyebrowse-last-slot)))
 
 ;;;###autoload
