@@ -209,14 +209,14 @@ last window config."
       (setq slot eyebrowse-last-slot
             eyebrowse-last-slot eyebrowse-current-slot))
   (when (/= eyebrowse-current-slot slot)
-    (run-hooks eyebrowse-pre-window-switch-hook)
+    (run-hooks 'eyebrowse-pre-window-switch-hook)
     (eyebrowse-save-window-config eyebrowse-current-slot)
     (eyebrowse-load-window-config slot)
     (setq eyebrowse-last-slot eyebrowse-current-slot)
     (setq eyebrowse-current-slot slot)
     (eyebrowse-save-window-config eyebrowse-current-slot)
     (eyebrowse-load-window-config eyebrowse-current-slot)
-    (run-hooks eyebrowse-post-window-switch-hook)))
+    (run-hooks 'eyebrowse-post-window-switch-hook)))
 
 (defun eyebrowse-update-mode-line ()
   "Return a string representation of the window configurations."
