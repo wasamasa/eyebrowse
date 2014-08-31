@@ -6,8 +6,9 @@ eyebrowse
 About
 -----
 
-``eyebrowse`` is a global minor mode for Emacs that allows you to manage
-your window configurations in a simple manner.  It displays their
+``eyebrowse`` is a global minor mode for Emacs that allows you to
+manage your window configurations in a simple manner, just like tiling
+window managers like i3wm with their workspaces do.  It displays their
 current state in the modeline by default.  The behaviour is modeled
 after `ranger <http://ranger.nongnu.org/>`_, a file manager written in
 Python.
@@ -116,24 +117,12 @@ branch and open a pull request with it.
 
 List of contributors:
 
-- `Lee Machin <https://github.com/leemachin>`_ made the prefix customizable.
+`See here <https://github.com/wasamasa/eyebrowse/graphs/contributors>`_
 
 Changelog
 ---------
 
-v0.1:
-
-- Initial Import
-- Added to MELPA
-
-v0.2:
-
-- Lots of bug fixes
-- Made prefix customizable
-- Added hooks
-- Improved `Evil <https://gitorious.org/evil>`_ integration
-- Added tag
-- Improved README
+`See here <https://github.com/wasamasa/eyebrowse/commits/master>`_
 
 Alternatives
 ------------
