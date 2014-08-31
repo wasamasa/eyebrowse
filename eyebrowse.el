@@ -324,8 +324,11 @@ is detected, it will bind gt, gT, gc and zx, too."
         'eyebrowse-last-window-config))
     (-dotimes 10 (lambda (n)
                    (define-key map (kbd (s-concat "M-" (number-to-string n)))
-                     (lambda () (interactive)
-                       (eyebrowse-switch-to-window-config n)))))))
+                     (defalias
+                       (intern (s-concat "eyebrowse-switch-to-window-config-"
+                                         (number-to-string n)))
+                       (lambda () (interactive)
+                         (eyebrowse-switch-to-window-config n))))))))
 
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
