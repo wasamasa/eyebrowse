@@ -151,10 +151,16 @@ If t, switching to the same window config as
       (define-key prefix-map (kbd ">") 'eyebrowse-next-window-config)
       (define-key prefix-map (kbd "'") 'eyebrowse-last-window-config)
       (define-key prefix-map (kbd "\"") 'eyebrowse-close-window-config)
-      (-dotimes 10 (lambda (n)
-                     (define-key prefix-map (kbd (number-to-string n))
-                       (lambda () (interactive)
-                         (eyebrowse-switch-to-window-config n)))))
+      (define-key prefix-map (kbd "0") 'eyebrowse-switch-to-window-config-0)
+      (define-key prefix-map (kbd "1") 'eyebrowse-switch-to-window-config-1)
+      (define-key prefix-map (kbd "2") 'eyebrowse-switch-to-window-config-2)
+      (define-key prefix-map (kbd "3") 'eyebrowse-switch-to-window-config-3)
+      (define-key prefix-map (kbd "4") 'eyebrowse-switch-to-window-config-4)
+      (define-key prefix-map (kbd "5") 'eyebrowse-switch-to-window-config-5)
+      (define-key prefix-map (kbd "6") 'eyebrowse-switch-to-window-config-6)
+      (define-key prefix-map (kbd "7") 'eyebrowse-switch-to-window-config-7)
+      (define-key prefix-map (kbd "8") 'eyebrowse-switch-to-window-config-8)
+      (define-key prefix-map (kbd "9") 'eyebrowse-switch-to-window-config-9)
       (define-key map eyebrowse-keymap-prefix prefix-map))
     map)
   "Initial key map for `eyebrowse-mode'.")
@@ -302,6 +308,56 @@ another appropriate window config."
       (eyebrowse-next-window-config nil))
     (eyebrowse-delete-window-config eyebrowse-last-slot)))
 
+(defun eyebrowse-switch-to-window-config-0 ()
+  "Switch to window configuration 0."
+  (interactive)
+  (eyebrowse-switch-to-window-config 0))
+
+(defun eyebrowse-switch-to-window-config-1 ()
+  "Switch to window configuration 1."
+  (interactive)
+  (eyebrowse-switch-to-window-config 1))
+
+(defun eyebrowse-switch-to-window-config-2 ()
+  "Switch to window configuration 2."
+  (interactive)
+  (eyebrowse-switch-to-window-config 2))
+
+(defun eyebrowse-switch-to-window-config-3 ()
+  "Switch to window configuration 3."
+  (interactive)
+  (eyebrowse-switch-to-window-config 3))
+
+(defun eyebrowse-switch-to-window-config-4 ()
+  "Switch to window configuration 4."
+  (interactive)
+  (eyebrowse-switch-to-window-config 4))
+
+(defun eyebrowse-switch-to-window-config-5 ()
+  "Switch to window configuration 5."
+  (interactive)
+  (eyebrowse-switch-to-window-config 5))
+
+(defun eyebrowse-switch-to-window-config-6 ()
+  "Switch to window configuration 6."
+  (interactive)
+  (eyebrowse-switch-to-window-config 6))
+
+(defun eyebrowse-switch-to-window-config-7 ()
+  "Switch to window configuration 7."
+  (interactive)
+  (eyebrowse-switch-to-window-config 7))
+
+(defun eyebrowse-switch-to-window-config-8 ()
+  "Switch to window configuration 8."
+  (interactive)
+  (eyebrowse-switch-to-window-config 8))
+
+(defun eyebrowse-switch-to-window-config-9 ()
+  "Switch to window configuration 9."
+  (interactive)
+  (eyebrowse-switch-to-window-config 9))
+
 ;;;###autoload
 (defun eyebrowse-setup-opinionated-keys ()
   "Set up more opinionated key bindings for using eyebrowse.
@@ -322,13 +378,16 @@ is detected, it will bind gt, gT, gc and zx, too."
         'eyebrowse-close-window-config)
       (define-key evil-motion-state-map (kbd "zx")
         'eyebrowse-last-window-config))
-    (-dotimes 10 (lambda (n)
-                   (define-key map (kbd (s-concat "M-" (number-to-string n)))
-                     (defalias
-                       (intern (s-concat "eyebrowse-switch-to-window-config-"
-                                         (number-to-string n)))
-                       (lambda () (interactive)
-                         (eyebrowse-switch-to-window-config n))))))))
+    (define-key map (kbd "M-0") 'eyebrowse-switch-to-window-config-0)
+    (define-key map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+    (define-key map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+    (define-key map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+    (define-key map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+    (define-key map (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
+    (define-key map (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
+    (define-key map (kbd "M-7") 'eyebrowse-switch-to-window-config-7)
+    (define-key map (kbd "M-8") 'eyebrowse-switch-to-window-config-8)
+    (define-key map (kbd "M-9") 'eyebrowse-switch-to-window-config-9)))
 
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
