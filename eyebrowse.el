@@ -187,8 +187,9 @@ If FRAME is nil, use current frame.  TYPE can be any of
   "Insert ELEMENT in the list of window configs.
 This function keeps the sortedness intact."
   (eyebrowse-set 'window-configs
-        (--sort (< (car it) (car other))
-                (cons element (eyebrowse-get 'window-configs)))))
+    ;; TODO there must be a better way to do this with `-insert-at'
+    (--sort (< (car it) (car other))
+            (cons element (eyebrowse-get 'window-configs)))))
 
 (defun eyebrowse-update-window-config-element (old-element new-element)
   "Replace OLD-ELEMENT with NEW-ELEMENT in the window config list."
@@ -248,6 +249,10 @@ last window config."
                                       'face 'eyebrowse-mode-line-delimiters))
          (separator (propertize eyebrowse-mode-line-separator
                                 'face 'eyebrowse-mode-line-separator))
+         ;; `current-slot' is used differently than usual, this time
+         ;; in a propertize context
+
+         ;; TODO make this less surprising
          (current-slot (number-to-string (eyebrowse-get 'current-slot)))
          (active-item (propertize current-slot
                                   'face 'eyebrowse-mode-line-active))
@@ -423,8 +428,14 @@ behaviour of `ranger`, a file manager."
   :lighter eyebrowse-lighter
   :keymap eyebrowse-mode-map
   :global t
+  ;; the `define-minor-mode' macro apparently sets the mode variable
+  ;; first, then runs the associated code, therefore if
+  ;; `eyebrowse-mode' is t, code related to initialization is run
   (if eyebrowse-mode
       (progn
+        ;; for some reason it's necessary to init both after emacs
+        ;; started and after frame creation to make it work for both
+        ;; emacs and emacsclient
         (eyebrowse-init)
         (add-hook 'after-make-frame-functions 'eyebrowse-init)
         (add-to-list 'mode-line-misc-info
