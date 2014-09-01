@@ -188,6 +188,7 @@ If FRAME is nil, use current frame.  TYPE can be any of
 This function keeps the sortedness intact."
   (eyebrowse-set 'window-configs
     ;; TODO there must be a better way to do this with `-insert-at'
+    ;; `-op' would shorten this code if it's good enough as it is
     (--sort (< (car it) (car other))
             (cons element (eyebrowse-get 'window-configs)))))
 
@@ -197,6 +198,12 @@ This function keeps the sortedness intact."
     (-replace-at (-elem-index old-element (eyebrowse-get 'window-configs))
                  new-element (eyebrowse-get 'window-configs))))
 
+;; window-configs are at the moment a list of a list containing the
+;; numerical slot, window configuration and point.  To add "tagging",
+;; it would be useful to save a tag as fourth component and display it
+;; if present, not only in the mode line, but when renaming and
+;; selecting a window configuration interactively, too.  This
+;; obviously requires an interactive window switching command.
 (defun eyebrowse-save-window-config (slot)
   "Save the current window config to SLOT."
   (let* ((element (list slot (current-window-configuration) (point)))
