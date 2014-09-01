@@ -406,7 +406,7 @@ is detected, it will bind gt, gT, gc and zx, too."
     (define-key map (kbd "C->") 'eyebrowse-next-window-config)
     (define-key map (kbd "C-'") 'eyebrowse-last-window-config)
     (define-key map (kbd "C-\"") 'eyebrowse-close-window-config)
-    (when (and (fboundp 'evil-mode) evil-mode)
+    (when (and (boundp 'evil-mode) evil-mode)
       (define-key evil-motion-state-map (kbd "gt")
         'eyebrowse-next-window-config)
       (define-key evil-motion-state-map (kbd "gT")
