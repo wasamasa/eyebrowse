@@ -268,6 +268,11 @@ last window config."
 
 ;; --- public functions ------------------------------------------------------
 
+(defun eyebrowse-init (&optional frame)
+  "Initialize Eyebrowse for the current frame."
+  (eyebrowse-set 'last-slot 1 frame)
+  (eyebrowse-set 'current-slot 1 frame))
+
 (defun eyebrowse-next-window-config (count)
   "Switch to the next available window config.
 If `eyebrowse-wrap-around-p' is t, this will switch from the last
@@ -418,8 +423,12 @@ behaviour of `ranger`, a file manager."
   :keymap eyebrowse-mode-map
   :global t
   (if eyebrowse-mode
-      (add-to-list 'mode-line-misc-info
-                   '(:eval (eyebrowse-update-mode-line)) t)
+      (progn
+        (eyebrowse-init)
+        (add-hook 'after-make-frame-functions 'eyebrowse-init)
+        (add-to-list 'mode-line-misc-info
+                     '(:eval (eyebrowse-update-mode-line)) t))
+    (remove-hook 'after-make-frame-functions 'eyebrowse-init)
     (setq mode-line-misc-info
           (remove '(:eval (eyebrowse-update-mode-line)) mode-line-misc-info))))
 
