@@ -264,12 +264,13 @@ last window config."
              (or (eq eyebrowse-mode-line-style 'always)
                  (and (eq eyebrowse-mode-line-style 'smart)
                       (> (length window-configs) 1))))
-        (s-concat left-delimiter
-                  (s-join separator
-                          (-replace-at (-elem-index current-slot
-                                                    window-config-slots)
-                                       active-item window-config-slots))
-                  right-delimiter)
+        (s-concat
+         left-delimiter
+         (s-join separator
+                 (-replace-at (-elem-index (number-to-string current-slot)
+                                           window-config-slots)
+                              active-item window-config-slots))
+         right-delimiter)
       "")))
 
 ;; --- public functions ------------------------------------------------------
