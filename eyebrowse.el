@@ -256,9 +256,6 @@ last window config."
                                       'face 'eyebrowse-mode-line-delimiters))
          (separator (propertize eyebrowse-mode-line-separator
                                 'face 'eyebrowse-mode-line-separator))
-         ;; `current-slot' is used differently than usual, this time
-         ;; in a propertize context
-
          (current-slot (eyebrowse-get 'current-slot))
          (active-item (propertize (number-to-string current-slot)
                                   'face 'eyebrowse-mode-line-active))
