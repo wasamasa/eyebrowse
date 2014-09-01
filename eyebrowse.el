@@ -252,9 +252,8 @@ last window config."
          ;; `current-slot' is used differently than usual, this time
          ;; in a propertize context
 
-         ;; TODO make this less surprising
-         (current-slot (number-to-string (eyebrowse-get 'current-slot)))
-         (active-item (propertize current-slot
+         (current-slot (eyebrowse-get 'current-slot))
+         (active-item (propertize (number-to-string current-slot)
                                   'face 'eyebrowse-mode-line-active))
          (window-configs (eyebrowse-get 'window-configs))
          (window-config-slots (mapcar (lambda (item)
