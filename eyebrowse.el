@@ -135,15 +135,6 @@ If t, switching to the same window config as
   :type 'hook
   :group 'eyebrowse)
 
-(defvar eyebrowse-last-slot 1
-  "Internal variable storing the last window config slot.")
-
-(defvar eyebrowse-current-slot 1
-  "Internal variable storing the current window config slot.")
-
-(defvar eyebrowse-window-configs nil
-  "Internal variable storing all window configs.")
-
 (defvar eyebrowse-mode-map
   (let ((map (make-sparse-keymap)))
     (let ((prefix-map (make-sparse-keymap)))
