@@ -204,6 +204,12 @@ This function keeps the sortedness intact."
 ;; if present, not only in the mode line, but when renaming and
 ;; selecting a window configuration interactively, too.  This
 ;; obviously requires an interactive window switching command.
+
+;; The display of the tag should be configurable via format string and
+;; that format string be able to resemble vim tabs, i3 workspaces,
+;; tmux sessions, etc.  Therefore it has to contain format codes for
+;; slot, tag and buffer name.
+
 (defun eyebrowse-save-window-config (slot)
   "Save the current window config to SLOT."
   (let* ((element (list slot (current-window-configuration) (point)))
