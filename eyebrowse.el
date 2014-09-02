@@ -233,27 +233,6 @@ This function keeps the sortedness intact."
     (eyebrowse-set 'window-configs
       (remove (assq slot window-configs) window-configs))))
 
-(defun eyebrowse-switch-to-window-config (slot)
-  "Switch to the window config SLOT.
-This will save the current window config to
-`eyebrowse-current-slot' first, then switch.  If
-`eyebrowse-switch-back-and-forth-p' is t and
-`eyebrowse-current-slot' equals SLOT, this will switch to the
-last window config."
-  (let ((current-slot (eyebrowse-get 'current-slot))
-        (last-slot (eyebrowse-get 'last-slot)))
-    (when (and eyebrowse-switch-back-and-forth-p (= current-slot slot))
-      (setq slot last-slot))
-    (when (/= current-slot slot)
-      (run-hooks 'eyebrowse-pre-window-switch-hook)
-      (eyebrowse-save-window-config current-slot)
-      (eyebrowse-load-window-config slot)
-      (eyebrowse-set 'last-slot current-slot)
-      (eyebrowse-set 'current-slot slot)
-      (eyebrowse-save-window-config slot)
-      (eyebrowse-load-window-config slot)
-      (run-hooks 'eyebrowse-post-window-switch-hook))))
-
 (defun eyebrowse-update-mode-line ()
   "Return a string representation of the window configurations."
   (let* ((left-delimiter (propertize eyebrowse-mode-line-left-delimiter
@@ -282,12 +261,45 @@ last window config."
          right-delimiter)
       "")))
 
+(defun eyebrowse-read-slot ()
+  (let* ((candidates (--map (number-to-string (car it))
+                            (eyebrowse-get 'window-configs)))
+         (last-slot (number-to-string (eyebrowse-get 'last-slot)))
+         (selection (completing-read "Enter slot: " candidates
+                                     nil nil last-slot))
+         (slot (string-to-number selection)))
+    (unless (and (= slot 0) (not (string= selection "0")))
+        slot)))
+
 ;; --- public functions ------------------------------------------------------
 
 (defun eyebrowse-init (&optional frame)
   "Initialize Eyebrowse for the current frame."
   (eyebrowse-set 'last-slot 1 frame)
   (eyebrowse-set 'current-slot 1 frame))
+
+(defun eyebrowse-switch-to-window-config (slot)
+  "Switch to the window config SLOT.
+This will save the current window config to
+`eyebrowse-current-slot' first, then switch.  If
+`eyebrowse-switch-back-and-forth-p' is t and
+`eyebrowse-current-slot' equals SLOT, this will switch to the
+last window config."
+  (interactive (list (eyebrowse-read-slot)))
+  (when slot
+    (let ((current-slot (eyebrowse-get 'current-slot))
+          (last-slot (eyebrowse-get 'last-slot)))
+      (when (and eyebrowse-switch-back-and-forth-p (= current-slot slot))
+        (setq slot last-slot))
+      (when (/= current-slot slot)
+        (run-hooks 'eyebrowse-pre-window-switch-hook)
+        (eyebrowse-save-window-config current-slot)
+        (eyebrowse-load-window-config slot)
+        (eyebrowse-set 'last-slot current-slot)
+        (eyebrowse-set 'current-slot slot)
+        (eyebrowse-save-window-config slot)
+        (eyebrowse-load-window-config slot)
+        (run-hooks 'eyebrowse-post-window-switch-hook)))))
 
 (defun eyebrowse-next-window-config (count)
   "Switch to the next available window config.
