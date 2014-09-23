@@ -1,11 +1,11 @@
-;;; eyebrowse.el --- Easy window config switching -*- lexical-binding: t -*-
+;;; eyebrowse.el --- Easy window config switching
 
 ;; Copyright (C) 2014 Vasilij Schneidermann <v.schneidermann@gmail.com>
 
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
 ;; Version: 0.3.1
-;; Package-Requires: ((dash "2.4.0") (s "1.4.0") (emacs "24"))
+;; Package-Requires: ((dash "2.4.0"))
 ;; Keywords: convenience
 
 ;; This file is NOT part of GNU Emacs.
@@ -37,7 +37,6 @@
 ;;; Code:
 
 (require 'dash)
-(require 's)
 
 ;; --- variables -------------------------------------------------------------
 
@@ -252,12 +251,13 @@ This function keeps the sortedness intact."
              (or (eq eyebrowse-mode-line-style 'always)
                  (and (eq eyebrowse-mode-line-style 'smart)
                       (> (length window-configs) 1))))
-        (s-concat
+        (concat
          left-delimiter
-         (s-join separator
+         (mapconcat 'identity
                  (-replace-at (-elem-index (number-to-string current-slot)
                                            window-config-slots)
-                              active-item window-config-slots))
+                              active-item window-config-slots)
+                 separator)
          right-delimiter)
       "")))
 
