@@ -5,7 +5,7 @@
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
 ;; Version: 0.3.1
-;; Package-Requires: ((dash "2.4.0"))
+;; Package-Requires: ((dash "2.7.0"))
 ;; Keywords: convenience
 
 ;; This file is NOT part of GNU Emacs.
@@ -185,17 +185,17 @@ If FRAME is nil, use current frame.  TYPE can be any of
 (defun eyebrowse-insert-in-window-config-list (element)
   "Insert ELEMENT in the list of window configs.
 This function keeps the sortedness intact."
-  (eyebrowse-set 'window-configs
-    ;; TODO there must be a better way to do this with `-insert-at'
-    ;; `-op' would shorten this code if it's good enough as it is
-    (--sort (< (car it) (car other))
-            (cons element (eyebrowse-get 'window-configs)))))
+  (let* ((window-configs (eyebrowse-get 'window-configs))
+         (index (--find-last-index (< (car it) (car element)) window-configs)))
+    (eyebrowse-set 'window-configs
+      (-insert-at (if index (1+ index) 0) element window-configs))))
 
-(defun eyebrowse-update-window-config-element (old-element new-element)
-  "Replace OLD-ELEMENT with NEW-ELEMENT in the window config list."
+(defun eyebrowse-update-window-config-element (new-element)
+  "Replace the old element with NEW-ELEMENT in the window config list.
+The old element is identified by the first element of NEW-ELEMENT."
   (eyebrowse-set 'window-configs
-    (-replace-at (-elem-index old-element (eyebrowse-get 'window-configs))
-                 new-element (eyebrowse-get 'window-configs))))
+    (--replace-where (= (car it) (car new-element))
+                     new-element (eyebrowse-get 'window-configs))))
 
 ;; window-configs are at the moment a list of a list containing the
 ;; numerical slot, window configuration and point.  To add "tagging",
@@ -211,10 +211,9 @@ This function keeps the sortedness intact."
 
 (defun eyebrowse-save-window-config (slot)
   "Save the current window config to SLOT."
-  (let* ((element (list slot (current-window-configuration) (point)))
-         (match (assq slot (eyebrowse-get 'window-configs))))
-    (if match
-        (eyebrowse-update-window-config-element match element)
+  (let* ((element (list slot (current-window-configuration) (point))))
+    (if (assq slot (eyebrowse-get 'window-configs))
+        (eyebrowse-update-window-config-element element)
       (eyebrowse-insert-in-window-config-list element))))
 
 (defun eyebrowse-load-window-config (slot)
@@ -254,10 +253,9 @@ This function keeps the sortedness intact."
         (concat
          left-delimiter
          (mapconcat 'identity
-                 (-replace-at (-elem-index (number-to-string current-slot)
-                                           window-config-slots)
+                    (-replace (number-to-string current-slot)
                               active-item window-config-slots)
-                 separator)
+                    separator)
          right-delimiter)
       "")))
 
