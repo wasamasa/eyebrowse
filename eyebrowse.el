@@ -52,7 +52,7 @@ manager."
   :group 'eyebrowse)
 
 (defcustom eyebrowse-lighter " ¬_¬"
-  "Lighter for `eyebrowse-minor-mode'."
+  "Lighter for `eyebrowse-mode'."
   :type 'string
   :group 'eyebrowse)
 
