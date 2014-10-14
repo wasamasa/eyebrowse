@@ -115,15 +115,6 @@ report an issue on the issue tracker or hit me up on IRC, I'm always on
 ``#emacs``.  Patches are welcome, too, just fork, work on a separate
 branch and open a pull request with it.
 
-List of contributors:
-
-`See here <https://github.com/wasamasa/eyebrowse/graphs/contributors>`_
-
-Changelog
----------
-
-`See here <https://github.com/wasamasa/eyebrowse/commits/master>`_
-
 Alternatives
 ------------
 
