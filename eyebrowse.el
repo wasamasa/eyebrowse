@@ -104,19 +104,19 @@ manager."
                  (const :tag "Always" always))
   :group 'eyebrowse)
 
-(defcustom eyebrowse-restore-point-p t
+(defcustom eyebrowse-restore-point t
   "Restore point, too?
 If t, restore point."
   :type 'boolean
   :group 'eyebrowse)
 
-(defcustom eyebrowse-wrap-around-p nil
+(defcustom eyebrowse-wrap-around nil
   "Wrap around when switching to the next/previous window config?
 If t, wrap around."
   :type 'boolean
   :group 'eyebrowse)
 
-(defcustom eyebrowse-switch-back-and-forth-p nil
+(defcustom eyebrowse-switch-back-and-forth nil
   "Switch to the last window automatically?
 If t, switching to the same window config as
 `eyebrowse-current-window-config', switches to
@@ -287,7 +287,7 @@ last window config."
   (when slot
     (let ((current-slot (eyebrowse-get 'current-slot))
           (last-slot (eyebrowse-get 'last-slot)))
-      (when (and eyebrowse-switch-back-and-forth-p (= current-slot slot))
+      (when (and eyebrowse-switch-back-and-forth (= current-slot slot))
         (setq slot last-slot))
       (when (/= current-slot slot)
         (run-hooks 'eyebrowse-pre-window-switch-hook)
@@ -328,7 +328,7 @@ switch COUNT window configs backwards and always wrap around."
          (match (assq (eyebrowse-get 'current-slot) window-configs))
          (index (-elem-index match window-configs)))
     (if count
-        (let ((eyebrowse-wrap-around-p t))
+        (let ((eyebrowse-wrap-around t))
           (eyebrowse-prev-window-config
            (when (> count 1)
              (eyebrowse-prev-window-config (1- count)))))
