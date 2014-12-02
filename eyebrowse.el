@@ -458,8 +458,9 @@ behaviour of `ranger`, a file manager."
         ;; emacs and emacsclient
         (eyebrowse-init)
         (add-hook 'after-make-frame-functions 'eyebrowse-init)
-        (add-to-list 'mode-line-misc-info
-                     '(:eval (eyebrowse-update-mode-line)) t))
+        (setq mode-line-misc-info
+              (-snoc mode-line-misc-info
+                     '(:eval (eyebrowse-update-mode-line)))))
     (remove-hook 'after-make-frame-functions 'eyebrowse-init)
     (setq mode-line-misc-info
           (remove '(:eval (eyebrowse-update-mode-line)) mode-line-misc-info))))
