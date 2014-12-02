@@ -280,7 +280,7 @@ The old element is identified by the first element of NEW-ELEMENT."
   "Switch to the window config SLOT.
 This will save the current window config to
 `eyebrowse-current-slot' first, then switch.  If
-`eyebrowse-switch-back-and-forth-p' is t and
+`eyebrowse-switch-back-and-forth' is t and
 `eyebrowse-current-slot' equals SLOT, this will switch to the
 last window config."
   (interactive (list (eyebrowse-read-slot)))
@@ -301,7 +301,7 @@ last window config."
 
 (defun eyebrowse-next-window-config (count)
   "Switch to the next available window config.
-If `eyebrowse-wrap-around-p' is t, this will switch from the last
+If `eyebrowse-wrap-around' is t, this will switch from the last
 to the first one.  When used with a numerical argument, switch to
 window config COUNT."
   (interactive "P")
@@ -314,13 +314,13 @@ window config COUNT."
         (if (< (1+ index) (length window-configs))
             (eyebrowse-switch-to-window-config
              (car (nth (1+ index) window-configs)))
-          (when eyebrowse-wrap-around-p
+          (when eyebrowse-wrap-around
             (eyebrowse-switch-to-window-config
              (caar window-configs))))))))
 
 (defun eyebrowse-prev-window-config (count)
   "Switch to the previous available window config.
-If `eyebrowse-wrap-around-p' is t, this will switch from the
+If `eyebrowse-wrap-around' is t, this will switch from the
 first to the last one.  When used with a numerical argument,
 switch COUNT window configs backwards and always wrap around."
   (interactive "P")
@@ -336,7 +336,7 @@ switch COUNT window configs backwards and always wrap around."
         (if (> index 0)
             (eyebrowse-switch-to-window-config
              (car (nth (1- index) window-configs)))
-          (when eyebrowse-wrap-around-p
+          (when eyebrowse-wrap-around
             (eyebrowse-switch-to-window-config
              (caar (last window-configs)))))))))
 

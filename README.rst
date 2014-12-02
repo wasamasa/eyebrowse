@@ -67,7 +67,7 @@ Further Customization
 
 Use ``M-x customize-group RET eyebrowse`` for a list of customizable
 options.  The more interesting ones would be
-``eyebrowse-wrap-around-p`` and ``eyebrowse-switch-back-and-forth-p``
+``eyebrowse-wrap-around`` and ``eyebrowse-switch-back-and-forth``
 which affect both wrap around and lazier switching.
 
 The prefix for each binding defaults to ``C-c C-w``, but you can change
