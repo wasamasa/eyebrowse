@@ -121,9 +121,10 @@ Alternatives
 The two most popular window configuration packages are `elscreen
 <https://github.com/shosti/elscreen>`_ and `escreen
 <https://github.com/emacsmirror/escreen>`_.  Both are fairly old and
-have their share of bugs.  If you want something more recent with more
-features than eyebrowse provides (such as persistency, morphing,
-per-view buffers, \...), try `workgroups
+have their share of bugs.  The closest package I've found so far to
+eyebrowse with workspace-specific buffers would be `perspective
+<https://github.com/nex3/perspective-el>`_.  To have further features
+such as persistency or morphing, try `workgroups
 <https://github.com/tlh/workgroups.el>`_ or `workgroups2
 <https://github.com/pashinin/workgroups2>`_.
 
