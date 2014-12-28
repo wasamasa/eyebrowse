@@ -24,9 +24,10 @@ bottom modeline?  That's what you get to see after enabling eyebrowse.
 Installation
 ------------
 
-Install via `quelpa <https://github.com/quelpa/quelpa>`_ with ``M-:
-(quelpa 'eyebrowse)`` or install the package from `MELPA
-<http://melpa.milkbox.net/>`_.
+Install via ``package.el`` from the `Marmalade
+<https://marmalade-repo.org/>`_ or `MELPA (stable)
+<http://melpa.org/>`_ repository by setting them up if you haven't
+already and executing ``M-x package-install RET eyebrowse RET``.
 
 Quick Tutorial
 --------------
