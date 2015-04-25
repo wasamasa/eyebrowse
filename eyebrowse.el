@@ -38,7 +38,8 @@
 
 (require 'dash)
 
-;; --- variables -------------------------------------------------------------
+
+;; variables
 
 (defgroup eyebrowse nil
   "A window configuration switcher modeled after the ranger file
@@ -155,7 +156,8 @@ If t, switching to the same window config as
     map)
   "Initial key map for `eyebrowse-mode'.")
 
-;; --- internal functions ----------------------------------------------------
+
+;; internal functions
 
 (defun eyebrowse-get (type &optional frame)
   "Retrieve frame-specific value of TYPE.
@@ -197,17 +199,17 @@ The old element is identified by the first element of NEW-ELEMENT."
     (--replace-where (= (car it) (car new-element))
                      new-element (eyebrowse-get 'window-configs))))
 
-;; window-configs are at the moment a list of a list containing the
-;; numerical slot, window configuration and point.  To add "tagging",
-;; it would be useful to save a tag as fourth component and display it
-;; if present, not only in the mode line, but when renaming and
-;; selecting a window configuration interactively, too.  This
-;; obviously requires an interactive window switching command.
+;; NOTE: window configurations are at the moment a list of a list
+;; containing the numerical slot, window configuration and point.  To
+;; add "tagging", it would be useful to save a tag as fourth component
+;; and display it if present, not only in the mode line, but when
+;; renaming and selecting a window configuration interactively, too.
+;; This obviously requires an interactive window switching command.
 
-;; The display of the tag should be configurable via format string and
-;; that format string be able to resemble vim tabs, i3 workspaces,
-;; tmux sessions, etc.  Therefore it has to contain format codes for
-;; slot, tag and buffer name.
+;; NOTE: The display of the tag should be configurable via format
+;; string and that format string be able to resemble vim tabs, i3
+;; workspaces, tmux sessions, etc.  Therefore it has to contain format
+;; codes for slot, tag and buffer name.
 
 (defun eyebrowse-save-window-config (slot)
   "Save the current window config to SLOT."
@@ -269,7 +271,8 @@ The old element is identified by the first element of NEW-ELEMENT."
     (unless (and (= slot 0) (not (string= selection "0")))
         slot)))
 
-;; --- public functions ------------------------------------------------------
+
+;; public functions
 
 (defun eyebrowse-init (&optional frame)
   "Initialize Eyebrowse for the current frame."
@@ -448,9 +451,6 @@ behaviour of `ranger`, a file manager."
   :lighter eyebrowse-lighter
   :keymap eyebrowse-mode-map
   :global t
-  ;; the `define-minor-mode' macro apparently sets the mode variable
-  ;; first, then runs the associated code, therefore if
-  ;; `eyebrowse-mode' is t, code related to initialization is run
   (if eyebrowse-mode
       (progn
         ;; for some reason it's necessary to init both after emacs
