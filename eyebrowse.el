@@ -217,12 +217,13 @@ This function keeps the sortedness intact."
     (eyebrowse--set 'window-configs
       (-insert-at (if index (1+ index) 0) element window-configs))))
 
-(defun eyebrowse--save-window-config (slot)
-  "Save the current window config to SLOT."
-  (let* ((element (list slot (current-window-configuration) (point))))
-    (if (assq slot (eyebrowse--get 'window-configs))
-        (eyebrowse--update-window-config-element element)
-      (eyebrowse--insert-in-window-config-list element))))
+(defun eyebrowse--window-config-present-p (slot)
+  "Non-nil if there is a window config at SLOT."
+  (assq slot (eyebrowse--get 'window-configs)))
+
+(defun eyebrowse--current-window-config (slot)
+  "Returns a window config list appliable for SLOT."
+  (list slot (current-window-configuration) (point)))
 
 (defun eyebrowse--load-window-config (slot)
   "Restore the window config from SLOT."
@@ -258,12 +259,14 @@ last window config."
         (setq slot last-slot))
       (when (/= current-slot slot)
         (run-hooks 'eyebrowse-pre-window-switch-hook)
-        (eyebrowse--save-window-config current-slot)
+        (eyebrowse--update-window-config-element
+         (eyebrowse--current-window-config current-slot))
+        (unless (eyebrowse--window-config-present-p slot)
+          (eyebrowse--insert-in-window-config-list
+           (eyebrowse--current-window-config slot)))
         (eyebrowse--load-window-config slot)
         (eyebrowse--set 'last-slot current-slot)
         (eyebrowse--set 'current-slot slot)
-        (eyebrowse--save-window-config slot)
-        (eyebrowse--load-window-config slot)
         (run-hooks 'eyebrowse-post-window-switch-hook)))))
 
 (defun eyebrowse-next-window-config (count)
