@@ -157,47 +157,7 @@ If t, switching to the same window config as
   "Initial key map for `eyebrowse-mode'.")
 
 
-;; internal functions
-
-(defun eyebrowse-get (type &optional frame)
-  "Retrieve frame-specific value of TYPE.
-If FRAME is nil, use current frame.  TYPE can be any of
-'window-configs, 'current-slot, 'last-slot."
-  (cond
-   ((eq type 'window-configs)
-    (frame-parameter frame 'eyebrowse-window-configs))
-   ((eq type 'current-slot)
-    (frame-parameter frame 'eyebrowse-current-slot))
-   ((eq type 'last-slot)
-    (frame-parameter frame 'eyebrowse-last-slot))))
-
-(defun eyebrowse-set (type value &optional frame)
-  "Set frame-specific value of TYPE to VALUE.
-If FRAME is nil, use current frame.  TYPE can be any of
-'window-configs, 'current-slot, 'last-slot."
-  (cond
-   ((eq type 'window-configs)
-    (set-frame-parameter frame 'eyebrowse-window-configs value))
-   ((eq type 'current-slot)
-    (set-frame-parameter frame 'eyebrowse-current-slot value))
-   ((eq type 'last-slot)
-    (set-frame-parameter frame 'eyebrowse-last-slot value))))
-(put 'eyebrowse-set 'lisp-indent-function 1)
-
-(defun eyebrowse-insert-in-window-config-list (element)
-  "Insert ELEMENT in the list of window configs.
-This function keeps the sortedness intact."
-  (let* ((window-configs (eyebrowse-get 'window-configs))
-         (index (--find-last-index (< (car it) (car element)) window-configs)))
-    (eyebrowse-set 'window-configs
-      (-insert-at (if index (1+ index) 0) element window-configs))))
-
-(defun eyebrowse-update-window-config-element (new-element)
-  "Replace the old element with NEW-ELEMENT in the window config list.
-The old element is identified by the first element of NEW-ELEMENT."
-  (eyebrowse-set 'window-configs
-    (--replace-where (= (car it) (car new-element))
-                     new-element (eyebrowse-get 'window-configs))))
+;; functions
 
 ;; NOTE: window configurations are at the moment a list of a list
 ;; containing the numerical slot, window configuration and point.  To
@@ -209,75 +169,79 @@ The old element is identified by the first element of NEW-ELEMENT."
 ;; NOTE: The display of the tag should be configurable via format
 ;; string and that format string be able to resemble vim tabs, i3
 ;; workspaces, tmux sessions, etc.  Therefore it has to contain format
-;; codes for slot, tag and buffer name.
+;; codes for slot, tag and buffer name.  A suitable formatting
+;; function can be found in s.el.
 
-(defun eyebrowse-save-window-config (slot)
+(defun eyebrowse--get (type &optional frame)
+  "Retrieve frame-specific value of TYPE.
+If FRAME is nil, use current frame.  TYPE can be any of
+'window-configs, 'current-slot, 'last-slot."
+  (cond
+   ((eq type 'window-configs)
+    (frame-parameter frame 'eyebrowse-window-configs))
+   ((eq type 'current-slot)
+    (frame-parameter frame 'eyebrowse-current-slot))
+   ((eq type 'last-slot)
+    (frame-parameter frame 'eyebrowse-last-slot))))
+
+(defun eyebrowse--set (type value &optional frame)
+  "Set frame-specific value of TYPE to VALUE.
+If FRAME is nil, use current frame.  TYPE can be any of
+'window-configs, 'current-slot, 'last-slot."
+  (cond
+   ((eq type 'window-configs)
+    (set-frame-parameter frame 'eyebrowse-window-configs value))
+   ((eq type 'current-slot)
+    (set-frame-parameter frame 'eyebrowse-current-slot value))
+   ((eq type 'last-slot)
+    (set-frame-parameter frame 'eyebrowse-last-slot value))))
+(put 'eyebrowse--set 'lisp-indent-function 1)
+
+(defun eyebrowse-init (&optional frame)
+  "Initialize Eyebrowse for the current frame."
+  (eyebrowse--set 'last-slot 1 frame)
+  (eyebrowse--set 'current-slot 1 frame))
+
+(defun eyebrowse--update-window-config-element (new-element)
+  "Replace the old element with NEW-ELEMENT in the window config list.
+The old element is identified by the first element of NEW-ELEMENT."
+  (eyebrowse--set 'window-configs
+    (--replace-where (= (car it) (car new-element))
+                     new-element (eyebrowse--get 'window-configs))))
+
+(defun eyebrowse--insert-in-window-config-list (element)
+  "Insert ELEMENT in the list of window configs.
+This function keeps the sortedness intact."
+  (let* ((window-configs (eyebrowse--get 'window-configs))
+         (index (--find-last-index (< (car it) (car element)) window-configs)))
+    (eyebrowse--set 'window-configs
+      (-insert-at (if index (1+ index) 0) element window-configs))))
+
+(defun eyebrowse--save-window-config (slot)
   "Save the current window config to SLOT."
   (let* ((element (list slot (current-window-configuration) (point))))
-    (if (assq slot (eyebrowse-get 'window-configs))
-        (eyebrowse-update-window-config-element element)
-      (eyebrowse-insert-in-window-config-list element))))
+    (if (assq slot (eyebrowse--get 'window-configs))
+        (eyebrowse--update-window-config-element element)
+      (eyebrowse--insert-in-window-config-list element))))
 
-(defun eyebrowse-load-window-config (slot)
+(defun eyebrowse--load-window-config (slot)
   "Restore the window config from SLOT."
-  (let ((match (assq slot (eyebrowse-get 'window-configs))))
+  (let ((match (assq slot (eyebrowse--get 'window-configs))))
     (when match
       (let ((window-config (cadr match))
             (point (nth 2 match)))
         (set-window-configuration window-config)
         (goto-char point)))))
 
-(defun eyebrowse-delete-window-config (slot)
-  "Remove the window config at SLOT."
-  (let ((window-configs (eyebrowse-get 'window-configs)))
-    (eyebrowse-set 'window-configs
-      (remove (assq slot window-configs) window-configs))))
-
-(defun eyebrowse-update-mode-line ()
-  "Return a string representation of the window configurations."
-  (let* ((left-delimiter (propertize eyebrowse-mode-line-left-delimiter
-                                     'face 'eyebrowse-mode-line-delimiters))
-         (right-delimiter (propertize eyebrowse-mode-line-right-delimiter
-                                      'face 'eyebrowse-mode-line-delimiters))
-         (separator (propertize eyebrowse-mode-line-separator
-                                'face 'eyebrowse-mode-line-separator))
-         (current-slot (eyebrowse-get 'current-slot))
-         (active-item (propertize (number-to-string current-slot)
-                                  'face 'eyebrowse-mode-line-active))
-         (window-configs (eyebrowse-get 'window-configs))
-         (window-config-slots (mapcar (lambda (item)
-                                        (number-to-string (car item)))
-                                      window-configs)))
-    (if (and (not (eq eyebrowse-mode-line-style 'hide))
-             (or (eq eyebrowse-mode-line-style 'always)
-                 (and (eq eyebrowse-mode-line-style 'smart)
-                      (> (length window-configs) 1))))
-        (concat
-         left-delimiter
-         (mapconcat 'identity
-                    (-replace (number-to-string current-slot)
-                              active-item window-config-slots)
-                    separator)
-         right-delimiter)
-      "")))
-
-(defun eyebrowse-read-slot ()
+(defun eyebrowse--read-slot ()
   (let* ((candidates (--map (number-to-string (car it))
-                            (eyebrowse-get 'window-configs)))
-         (last-slot (number-to-string (eyebrowse-get 'last-slot)))
+                            (eyebrowse--get 'window-configs)))
+         (last-slot (number-to-string (eyebrowse--get 'last-slot)))
          (selection (completing-read "Enter slot: " candidates
                                      nil nil last-slot))
          (slot (string-to-number selection)))
     (unless (and (= slot 0) (not (string= selection "0")))
         slot)))
-
-
-;; public functions
-
-(defun eyebrowse-init (&optional frame)
-  "Initialize Eyebrowse for the current frame."
-  (eyebrowse-set 'last-slot 1 frame)
-  (eyebrowse-set 'current-slot 1 frame))
 
 (defun eyebrowse-switch-to-window-config (slot)
   "Switch to the window config SLOT.
@@ -286,20 +250,20 @@ This will save the current window config to
 `eyebrowse-switch-back-and-forth' is t and
 `eyebrowse-current-slot' equals SLOT, this will switch to the
 last window config."
-  (interactive (list (eyebrowse-read-slot)))
+  (interactive (list (eyebrowse--read-slot)))
   (when slot
-    (let ((current-slot (eyebrowse-get 'current-slot))
-          (last-slot (eyebrowse-get 'last-slot)))
+    (let ((current-slot (eyebrowse--get 'current-slot))
+          (last-slot (eyebrowse--get 'last-slot)))
       (when (and eyebrowse-switch-back-and-forth (= current-slot slot))
         (setq slot last-slot))
       (when (/= current-slot slot)
         (run-hooks 'eyebrowse-pre-window-switch-hook)
-        (eyebrowse-save-window-config current-slot)
-        (eyebrowse-load-window-config slot)
-        (eyebrowse-set 'last-slot current-slot)
-        (eyebrowse-set 'current-slot slot)
-        (eyebrowse-save-window-config slot)
-        (eyebrowse-load-window-config slot)
+        (eyebrowse--save-window-config current-slot)
+        (eyebrowse--load-window-config slot)
+        (eyebrowse--set 'last-slot current-slot)
+        (eyebrowse--set 'current-slot slot)
+        (eyebrowse--save-window-config slot)
+        (eyebrowse--load-window-config slot)
         (run-hooks 'eyebrowse-post-window-switch-hook)))))
 
 (defun eyebrowse-next-window-config (count)
@@ -308,8 +272,8 @@ If `eyebrowse-wrap-around' is t, this will switch from the last
 to the first one.  When used with a numerical argument, switch to
 window config COUNT."
   (interactive "P")
-  (let* ((window-configs (eyebrowse-get 'window-configs))
-         (match (assq (eyebrowse-get 'current-slot) window-configs))
+  (let* ((window-configs (eyebrowse--get 'window-configs))
+         (match (assq (eyebrowse--get 'current-slot) window-configs))
          (index (-elem-index match window-configs)))
     (if count
         (eyebrowse-switch-to-window-config count)
@@ -327,8 +291,8 @@ If `eyebrowse-wrap-around' is t, this will switch from the
 first to the last one.  When used with a numerical argument,
 switch COUNT window configs backwards and always wrap around."
   (interactive "P")
-  (let* ((window-configs (eyebrowse-get 'window-configs))
-         (match (assq (eyebrowse-get 'current-slot) window-configs))
+  (let* ((window-configs (eyebrowse--get 'window-configs))
+         (match (assq (eyebrowse--get 'current-slot) window-configs))
          (index (-elem-index match window-configs)))
     (if count
         (let ((eyebrowse-wrap-around t))
@@ -346,20 +310,26 @@ switch COUNT window configs backwards and always wrap around."
 (defun eyebrowse-last-window-config ()
   "Switch to the last window config."
   (interactive)
-  (eyebrowse-switch-to-window-config (eyebrowse-get 'last-slot)))
+  (eyebrowse-switch-to-window-config (eyebrowse--get 'last-slot)))
+
+(defun eyebrowse--delete-window-config (slot)
+  "Remove the window config at SLOT."
+  (let ((window-configs (eyebrowse--get 'window-configs)))
+    (eyebrowse--set 'window-configs
+      (remove (assq slot window-configs) window-configs))))
 
 (defun eyebrowse-close-window-config ()
   "Close the current window config.
 This removes it from `eyebrowse-window-configs' and switches to
 another appropriate window config."
   (interactive)
-  (let ((window-configs (eyebrowse-get 'window-configs)))
+  (let ((window-configs (eyebrowse--get 'window-configs)))
     (when (> (length window-configs) 1)
-      (if (equal (assq (eyebrowse-get 'current-slot) window-configs)
+      (if (equal (assq (eyebrowse--get 'current-slot) window-configs)
                  (car (last window-configs)))
           (eyebrowse-prev-window-config nil)
         (eyebrowse-next-window-config nil))
-      (eyebrowse-delete-window-config (eyebrowse-get 'last-slot)))))
+      (eyebrowse--delete-window-config (eyebrowse--get 'last-slot)))))
 
 (defun eyebrowse-switch-to-window-config-0 ()
   "Switch to window configuration 0."
@@ -442,6 +412,34 @@ is detected, it will bind gt, gT, gc and zx, too."
     (define-key map (kbd "M-8") 'eyebrowse-switch-to-window-config-8)
     (define-key map (kbd "M-9") 'eyebrowse-switch-to-window-config-9)))
 
+(defun eyebrowse--update-mode-line ()
+  "Return a string representation of the window configurations."
+  (let* ((left-delimiter (propertize eyebrowse-mode-line-left-delimiter
+                                     'face 'eyebrowse-mode-line-delimiters))
+         (right-delimiter (propertize eyebrowse-mode-line-right-delimiter
+                                      'face 'eyebrowse-mode-line-delimiters))
+         (separator (propertize eyebrowse-mode-line-separator
+                                'face 'eyebrowse-mode-line-separator))
+         (current-slot (eyebrowse--get 'current-slot))
+         (active-item (propertize (number-to-string current-slot)
+                                  'face 'eyebrowse-mode-line-active))
+         (window-configs (eyebrowse--get 'window-configs))
+         (window-config-slots (mapcar (lambda (item)
+                                        (number-to-string (car item)))
+                                      window-configs)))
+    (if (and (not (eq eyebrowse-mode-line-style 'hide))
+             (or (eq eyebrowse-mode-line-style 'always)
+                 (and (eq eyebrowse-mode-line-style 'smart)
+                      (> (length window-configs) 1))))
+        (concat
+         left-delimiter
+         (mapconcat 'identity
+                    (-replace (number-to-string current-slot)
+                              active-item window-config-slots)
+                    separator)
+         right-delimiter)
+      "")))
+
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
@@ -460,10 +458,10 @@ behaviour of `ranger`, a file manager."
         (add-hook 'after-make-frame-functions 'eyebrowse-init)
         (setq mode-line-misc-info
               (-snoc mode-line-misc-info
-                     '(:eval (eyebrowse-update-mode-line)))))
+                     '(:eval (eyebrowse--update-mode-line)))))
     (remove-hook 'after-make-frame-functions 'eyebrowse-init)
     (setq mode-line-misc-info
-          (remove '(:eval (eyebrowse-update-mode-line)) mode-line-misc-info))))
+          (remove '(:eval (eyebrowse--update-mode-line)) mode-line-misc-info))))
 
 (provide 'eyebrowse)
 
