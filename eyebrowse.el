@@ -125,6 +125,24 @@ If t, switching to the same window config as
   :type 'boolean
   :group 'eyebrowse)
 
+(defcustom eyebrowse-new-workspace nil
+  "Type of the new workspace.
+It may be one of the following:
+
+nil: Clone last workspace.
+
+string value: Clean up and display a buffer with that name.  If
+  necessary, create the buffer beforehand.
+
+symbol name: Clean up and call the specified function.
+
+t: Clean up and display the scratch buffer."
+  :type '(choice (const :tag "Clone last workspace." nil)
+                 (string :tag "Switch to buffer name.")
+                 (function :tag "Initialize with function.")
+                 (const :tag "Switch to scratch buffer." t))
+  :group 'eyebrowse)
+
 (defcustom eyebrowse-pre-window-switch-hook nil
   "Hook run before switching to a window config."
   :type 'hook
@@ -257,17 +275,26 @@ last window config."
           (last-slot (eyebrowse--get 'last-slot)))
       (when (and eyebrowse-switch-back-and-forth (= current-slot slot))
         (setq slot last-slot))
-      (when (/= current-slot slot)
-        (run-hooks 'eyebrowse-pre-window-switch-hook)
-        (eyebrowse--update-window-config-element
-         (eyebrowse--current-window-config current-slot))
-        (unless (eyebrowse--window-config-present-p slot)
-          (eyebrowse--insert-in-window-config-list
-           (eyebrowse--current-window-config slot)))
-        (eyebrowse--load-window-config slot)
-        (eyebrowse--set 'last-slot current-slot)
-        (eyebrowse--set 'current-slot slot)
-        (run-hooks 'eyebrowse-post-window-switch-hook)))))
+      (let ((new-window-config (not (eyebrowse--window-config-present-p slot))))
+        (when (/= current-slot slot)
+          (run-hooks 'eyebrowse-pre-window-switch-hook)
+          (eyebrowse--update-window-config-element
+           (eyebrowse--current-window-config current-slot))
+          (when new-window-config
+            (eyebrowse--insert-in-window-config-list
+             (eyebrowse--current-window-config slot)))
+          (eyebrowse--load-window-config slot)
+          (eyebrowse--set 'last-slot current-slot)
+          (eyebrowse--set 'current-slot slot)
+          (when (and new-window-config eyebrowse-new-workspace)
+            (delete-other-windows)
+            (cond
+             ((stringp eyebrowse-new-workspace)
+              (switch-to-buffer (get-buffer-create eyebrowse-new-workspace)))
+             ((functionp eyebrowse-new-workspace)
+              (funcall eyebrowse-new-workspace))
+             (t (switch-to-buffer "*scratch*"))))
+          (run-hooks 'eyebrowse-post-window-switch-hook))))))
 
 (defun eyebrowse-next-window-config (count)
   "Switch to the next available window config.
