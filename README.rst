@@ -69,7 +69,12 @@ Further Customization
 Use ``M-x customize-group RET eyebrowse`` for a list of customizable
 options.  The more interesting ones would be
 ``eyebrowse-wrap-around`` and ``eyebrowse-switch-back-and-forth``
-which affect both wrap around and lazier switching.
+which affect both wrap around and lazier switching.  It is also
+possible to change the behaviour of creation of new workspaces by
+customizing ``eyebrowse-new-workspace``.  By default the last one is
+simply cloned, setting it to ``t`` will start out with as empty of a
+slate as possible (by just displaying a single window with the scratch
+buffer in it).
 
 The prefix for each binding defaults to ``C-c C-w``, but you can change
 it to something else by customizing ``eyebrowse-keymap-prefix``.  If
