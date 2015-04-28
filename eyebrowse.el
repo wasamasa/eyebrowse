@@ -218,7 +218,9 @@ If FRAME is nil, use current frame.  TYPE can be any of
 (defun eyebrowse-init (&optional frame)
   "Initialize Eyebrowse for the current frame."
   (eyebrowse--set 'last-slot 1 frame)
-  (eyebrowse--set 'current-slot 1 frame))
+  (eyebrowse--set 'current-slot 1 frame)
+  (eyebrowse--insert-in-window-config-list
+   (eyebrowse--current-window-config 1)))
 
 (defun eyebrowse--update-window-config-element (new-element)
   "Replace the old element with NEW-ELEMENT in the window config list.
