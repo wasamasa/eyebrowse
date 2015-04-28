@@ -220,7 +220,7 @@ If FRAME is nil, use current frame.  TYPE can be any of
   (eyebrowse--set 'last-slot 1 frame)
   (eyebrowse--set 'current-slot 1 frame)
   (eyebrowse--insert-in-window-config-list
-   (eyebrowse--current-window-config 1)))
+   (eyebrowse--current-window-config 1) frame))
 
 (defun eyebrowse--update-window-config-element (new-element)
   "Replace the old element with NEW-ELEMENT in the window config list.
@@ -229,17 +229,17 @@ The old element is identified by the first element of NEW-ELEMENT."
     (--replace-where (= (car it) (car new-element))
                      new-element (eyebrowse--get 'window-configs))))
 
-(defun eyebrowse--insert-in-window-config-list (element)
+(defun eyebrowse--insert-in-window-config-list (element &optional frame)
   "Insert ELEMENT in the list of window configs.
 This function keeps the sortedness intact."
-  (let* ((window-configs (eyebrowse--get 'window-configs))
+  (let* ((window-configs (eyebrowse--get 'window-configs frame))
          (index (--find-last-index (< (car it) (car element)) window-configs)))
     (eyebrowse--set 'window-configs
-      (-insert-at (if index (1+ index) 0) element window-configs))))
+      (-insert-at (if index (1+ index) 0) element window-configs) frame)))
 
-(defun eyebrowse--window-config-present-p (slot)
+(defun eyebrowse--window-config-present-p (slot &optional frame)
   "Non-nil if there is a window config at SLOT."
-  (assq slot (eyebrowse--get 'window-configs)))
+  (assq slot (eyebrowse--get 'window-configs frame)))
 
 (defun eyebrowse--current-window-config (slot)
   "Returns a window config list appliable for SLOT."
