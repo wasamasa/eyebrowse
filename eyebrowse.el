@@ -457,19 +457,17 @@ is detected, it will bind gt, gT, gc and zx, too."
          (active-item (propertize (number-to-string current-slot)
                                   'face 'eyebrowse-mode-line-active))
          (window-configs (eyebrowse--get 'window-configs))
-         (window-config-slots (mapcar (lambda (item)
-                                        (number-to-string (car item)))
-                                      window-configs)))
+         (window-config-slots (mapcar 'car window-configs)))
     (if (and (not (eq eyebrowse-mode-line-style 'hide))
              (or (eq eyebrowse-mode-line-style 'always)
                  (and (eq eyebrowse-mode-line-style 'smart)
                       (> (length window-configs) 1))))
         (concat
          left-delimiter
-         (mapconcat 'identity
-                    (-replace (number-to-string current-slot)
-                              active-item window-config-slots)
-                    separator)
+         (mapconcat
+          (lambda (n) (if (= n current-slot) active-item (number-to-string n)))
+          window-config-slots
+          separator)
          right-delimiter)
       "")))
 
