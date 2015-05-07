@@ -95,11 +95,11 @@ manager."
 (defcustom eyebrowse-mode-line-style 'smart
   "The mode line indicator style may be one of the following:
 
-'hide: Don't show at all.
+nil, 'hide: Don't show at all.
 
 'smart: Hide when only one window config.
 
-'always: Always show."
+t, 'always: Always show."
   :type '(choice (const :tag "Hide" hide)
                  (const :tag "Smart" smart)
                  (const :tag "Always" always))
@@ -462,8 +462,10 @@ is detected, extra key bindings will be set up with
                                   'face 'eyebrowse-mode-line-active))
          (window-configs (eyebrowse--get 'window-configs))
          (window-config-slots (mapcar 'car window-configs)))
-    (if (and (not (eq eyebrowse-mode-line-style 'hide))
-             (or (eq eyebrowse-mode-line-style 'always)
+    (if (and eyebrowse-mode-line-style
+             (not (eq eyebrowse-mode-line-style 'hide))
+             (or (and (not (eq eyebrowse-mode-line-style 'smart))
+                      eyebrowse-mode-line-style)
                  (and (eq eyebrowse-mode-line-style 'smart)
                       (> (length window-configs) 1))))
         (concat
