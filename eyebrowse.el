@@ -105,12 +105,6 @@ manager."
                  (const :tag "Always" always))
   :group 'eyebrowse)
 
-(defcustom eyebrowse-restore-point t
-  "Restore point, too?
-If t, restore point."
-  :type 'boolean
-  :group 'eyebrowse)
-
 (defcustom eyebrowse-wrap-around nil
   "Wrap around when switching to the next/previous window config?
 If t, wrap around."
