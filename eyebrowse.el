@@ -422,25 +422,28 @@ another appropriate window config."
   (eyebrowse-switch-to-window-config 9))
 
 ;;;###autoload
+(defun eyebrowse-setup-evil-keys ()
+  "Set up key bindings specific to Evil.
+Currently only gt, gT, gc and zx are supported."
+  (define-key evil-motion-state-map (kbd "gt") 'eyebrowse-next-window-config)
+  (define-key evil-motion-state-map (kbd "gT") 'eyebrowse-prev-window-config)
+  (define-key evil-motion-state-map (kbd "gc") 'eyebrowse-close-window-config)
+  (define-key evil-motion-state-map (kbd "zx") 'eyebrowse-last-window-config))
+
+;;;###autoload
 (defun eyebrowse-setup-opinionated-keys ()
   "Set up more opinionated key bindings for using eyebrowse.
 
-M-1..M-9, C-< / C->, C-`and C-' are used for switching.  If evil
-is detected, it will bind gt, gT, gc and zx, too."
+M-0..M-9, C-< / C->, C-'and C-\" are used for switching.  If Evil
+is detected, extra key bindings will be set up with
+`eyebrowse-setup-evil-keys' as well."
   (let ((map eyebrowse-mode-map))
+    (when (bound-and-true-p evil-mode)
+      (eyebrowse-setup-evil-keys))
     (define-key map (kbd "C-<") 'eyebrowse-prev-window-config)
     (define-key map (kbd "C->") 'eyebrowse-next-window-config)
     (define-key map (kbd "C-'") 'eyebrowse-last-window-config)
     (define-key map (kbd "C-\"") 'eyebrowse-close-window-config)
-    (when (bound-and-true-p evil-mode)
-      (define-key evil-motion-state-map (kbd "gt")
-        'eyebrowse-next-window-config)
-      (define-key evil-motion-state-map (kbd "gT")
-        'eyebrowse-prev-window-config)
-      (define-key evil-motion-state-map (kbd "gc")
-        'eyebrowse-close-window-config)
-      (define-key evil-motion-state-map (kbd "zx")
-        'eyebrowse-last-window-config))
     (define-key map (kbd "M-0") 'eyebrowse-switch-to-window-config-0)
     (define-key map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
     (define-key map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
