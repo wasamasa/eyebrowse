@@ -87,6 +87,18 @@ Same applies to the count argument as above.  Not implemented.
 - [ ] :[count]tabe[dit] [++opt] [+cmd] {file}
 - [ ] :[count]tabnew [++opt] [+cmd] {file}
 
+
+* Turn current window into tab
+
+See title.  This will fail if there's only one window open.  Probably
+requires the more flexible window configuration backend (or
+alternatively, clone the current window config, close the selected
+window in one tab, close all other windows in the other one).  A count
+will make the tab open before the tab with the respective number,
+otherwise it will be inserted after the current one.
+
+- [ ] [count]C-w T
+
 * Move tab
 
 There's two types of movements, one would be moving a tab to a
