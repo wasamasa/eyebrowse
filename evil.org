@@ -12,6 +12,8 @@ would otherwise abort the action.  This doesn't really fit Emacs (this
 question usually comes when ending the session), so I'm strongly
 considering to just drop these commands.
 
+- [ ] implement extended {count} argument
+
 * Switch to next tab
 
 Both switching to the next and nth tab with gt are supported.
@@ -181,3 +183,6 @@ the tab list).  I've bound that command to zx, but that feels wrong
 since it's supposed to be a folding command that merely happened to be
 free in Evil's z map.  A solution as explained in the section about
 the "other" last tab page would probably work out.
+
+- [X] zx
+- [ ] Find a better solution and keybinding for it
