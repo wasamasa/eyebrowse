@@ -249,12 +249,12 @@ This function keeps the sortedness intact."
         (set-window-configuration window-config)
         (goto-char point)))))
 
-(defun eyebrowse--read-slot ()
+(defun eyebrowse--read-slot (&optional initial-slot)
   (let* ((candidates (--map (number-to-string (car it))
                             (eyebrowse--get 'window-configs)))
-         (last-slot (number-to-string (eyebrowse--get 'last-slot)))
-         (selection (completing-read "Enter slot: " candidates
-                                     nil nil last-slot))
+         (selection (completing-read
+                     "Enter slot: " candidates
+                     nil nil (and initial-slot (number-to-string initial-slot))))
          (slot (string-to-number selection)))
     (unless (and (= slot 0) (not (string= selection "0")))
         slot)))
@@ -266,7 +266,7 @@ This will save the current window config to
 `eyebrowse-switch-back-and-forth' is t and
 `eyebrowse-current-slot' equals SLOT, this will switch to the
 last window config."
-  (interactive (list (eyebrowse--read-slot)))
+  (interactive (list (eyebrowse--read-slot (eyebrowse--get 'last-slot))))
   (when slot
     (let ((current-slot (eyebrowse--get 'current-slot))
           (last-slot (eyebrowse--get 'last-slot)))
