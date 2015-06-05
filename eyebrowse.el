@@ -358,11 +358,11 @@ another appropriate window config."
         (eyebrowse-next-window-config nil))
       (eyebrowse--delete-window-config (eyebrowse--get 'last-slot)))))
 
-;; NOTE: I've tried out generating the respective commands dynamically
+;; NOTE I've tried out generating the respective commands dynamically
 ;; with a macro, but this ended in unreadable code and Emacs not being
 ;; able to locate the generated commands, using lexical binding and a
 ;; loop resulted in very fun looking key bindings with closures in the
-;; command description.  That's why I I gave up and just wrote out the
+;; command description.  That's why I gave up and just wrote out the
 ;; first ten commands instead.
 
 (defun eyebrowse-switch-to-window-config-0 ()
