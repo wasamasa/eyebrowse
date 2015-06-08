@@ -4,7 +4,7 @@
 
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
-;; Version: 0.5.0
+;; Version: 0.5.1
 ;; Package-Requires: ((dash "2.7.0"))
 ;; Keywords: convenience
 
