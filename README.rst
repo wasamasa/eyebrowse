@@ -46,6 +46,12 @@ window config on slot 2 is saved and the window config from slot 1 is
 loaded.  Try switching back and forth between them with ``C-c C-w '``
 to get a feeling for how subsequent window manipulations are handled.
 
+To make keeping track of workspaces easier, a tagging feature was
+added.  Use ``C-c C-w ,`` to set a tag for the current window config,
+it will both appear in the modeline indicator and when using ``M-x
+eyebrowse-switch-to-window-config``.  Setting the tag to an empty
+value will undo this change.
+
 Key bindings
 ------------
 
@@ -58,6 +64,7 @@ Key bind       Function
 ``C-c C-w >``  Switch to next window config
 ``C-c C-w '``  Switch to last window config
 ``C-c C-w "``  Close current window config
+``C-c C-w ,``  Rename current window config
 ``C-c C-w 0``  Switch to window config ``0``
 \...           ...
 ``C-c C-w 9``  Switch to window config ``9``
@@ -109,8 +116,8 @@ This mode basically wraps what ``C-x r w`` and ``C-x r j`` do.  The
 difference is first, it saves and loads automatically for you upon
 switching slots, and second, it doesn't overwrite the general purpose
 registers.  What it does instead is keeping its own data structure (a
-list of lists containing slot, window config and point) and using it
-to provide some other convenience keybinds, such as jumping to the
+list of lists containing slot, window config, point and tag) and using
+it to provide some other convenience keybinds, such as jumping to the
 last window config or the next one available.
 
 Contributing
