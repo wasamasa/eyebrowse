@@ -256,18 +256,14 @@ This function keeps the sortedness intact."
         (set-window-configuration window-config)
         (goto-char point)))))
 
-(defun eyebrowse--read-slot (&optional initial-slot)
+(defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
-A formatted list of window configs is presented as candidates.
-If INITIAL-SLOT is set, use the respective window config as
-preselected candidate."
+A formatted list of window configs is presented as candidates."
   (let* ((candidates (--map (cons (eyebrowse-format-slot it)
                                   (car it))
                             (eyebrowse--get 'window-configs)))
          (candidate (completing-read
-                     "Enter slot: " candidates nil t
-                     (and initial-slot
-                          (car (rassoc initial-slot candidates))))))
+                     "Enter slot: " candidates nil t)))
     (cdr (assoc candidate candidates))))
 
 (defun eyebrowse-switch-to-window-config (slot)
@@ -279,7 +275,7 @@ This will save the current window config to
 last window config."
   (interactive (list (if (numberp current-prefix-arg)
                          current-prefix-arg
-                       (eyebrowse--read-slot (eyebrowse--get 'last-slot)))))
+                       (eyebrowse--read-slot))))
   (when slot
     (let* ((current-slot (eyebrowse--get 'current-slot))
            (window-configs (eyebrowse--get 'window-configs))
