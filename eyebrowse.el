@@ -174,6 +174,7 @@ The following format codes are supported:
       (define-key prefix-map (kbd "'") 'eyebrowse-last-window-config)
       (define-key prefix-map (kbd "\"") 'eyebrowse-close-window-config)
       (define-key prefix-map (kbd ",") 'eyebrowse-rename-window-config)
+      (define-key prefix-map (kbd ".") 'eyebrowse-switch-to-window-config)
       (define-key prefix-map (kbd "0") 'eyebrowse-switch-to-window-config-0)
       (define-key prefix-map (kbd "1") 'eyebrowse-switch-to-window-config-1)
       (define-key prefix-map (kbd "2") 'eyebrowse-switch-to-window-config-2)
