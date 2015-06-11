@@ -246,16 +246,12 @@ This function keeps the sortedness intact."
 
 (defun eyebrowse--current-window-config (slot tag)
   "Returns a window config list appliable for SLOT."
-  (list slot (current-window-configuration) (point) tag))
+  (list slot (window-state-get nil t) tag))
 
 (defun eyebrowse--load-window-config (slot)
   "Restore the window config from SLOT."
-  (let ((match (assq slot (eyebrowse--get 'window-configs))))
-    (when match
-      (let ((window-config (cadr match))
-            (point (nth 2 match)))
-        (set-window-configuration window-config)
-        (goto-char point)))))
+  (-when-let (match (assq slot (eyebrowse--get 'window-configs)))
+    (window-state-put (cadr match) (frame-root-window))))
 
 (defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
@@ -280,7 +276,7 @@ last window config."
   (when slot
     (let* ((current-slot (eyebrowse--get 'current-slot))
            (window-configs (eyebrowse--get 'window-configs))
-           (current-tag (nth 3 (assoc current-slot window-configs)))
+           (current-tag (nth 2 (assoc current-slot window-configs)))
            (last-slot (eyebrowse--get 'last-slot)))
       (when (and eyebrowse-switch-back-and-forth (= current-slot slot))
         (setq slot last-slot))
@@ -383,9 +379,9 @@ prefix argument to select a slot by its number."
                       (t (eyebrowse--get 'current-slot)))))
   (let* ((window-configs (eyebrowse--get 'window-configs))
          (window-config (assoc slot window-configs))
-         (current-tag (nth 3 window-config))
+         (current-tag (nth 2 window-config))
          (tag (read-string "Tag: " current-tag)))
-    (setf (nth 3 window-config) tag)))
+    (setf (nth 2 window-config) tag)))
 
 ;; NOTE I've tried out generating the respective commands dynamically
 ;; with a macro, but this ended in unreadable code and Emacs not being
@@ -480,7 +476,7 @@ is detected, extra key bindings will be set up with
 
 (defun eyebrowse-format-slot (window-config)
   (let* ((slot (car window-config))
-         (tag (nth 3 window-config))
+         (tag (nth 2 window-config))
          (format-string (if (and tag (> (length tag) 0))
                             eyebrowse-tagged-slot-format
                           eyebrowse-slot-format)))
@@ -538,5 +534,4 @@ behaviour of `ranger`, a file manager."
     (remove-hook 'after-make-frame-functions 'eyebrowse-init)))
 
 (provide 'eyebrowse)
-
 ;;; eyebrowse.el ends here
