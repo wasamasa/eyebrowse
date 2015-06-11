@@ -112,13 +112,12 @@ Key bind        Function
 Internals
 ---------
 
-This mode basically wraps what ``C-x r w`` and ``C-x r j`` do.  The
-difference is first, it saves and loads automatically for you upon
-switching slots, and second, it doesn't overwrite the general purpose
-registers.  What it does instead is keeping its own data structure (a
-list of lists containing slot, window config, point and tag) and using
-it to provide some other convenience keybinds, such as jumping to the
-last window config or the next one available.
+This mode basically wraps what ``C-x r w`` and ``C-x r j`` would do,
+but takes care of automatically saving and loading to a separate data
+structure for you and does it in a slightly different manner (see
+``window-state-put`` and ``window-state-get`` for more details) to
+allow for features like persistency in combination with `desktop.el
+<https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html#Saving-Emacs-Sessions>`_.
 
 Contributing
 ------------
@@ -137,7 +136,7 @@ The two most popular window configuration packages are `elscreen
 have their share of bugs.  The closest package I've found so far to
 eyebrowse with workspace-specific buffers would be `perspective
 <https://github.com/nex3/perspective-el>`_.  To have further features
-such as persistency or morphing, try `workgroups
+such as morphing, try `workgroups
 <https://github.com/tlh/workgroups.el>`_ or `workgroups2
 <https://github.com/pashinin/workgroups2>`_.
 
