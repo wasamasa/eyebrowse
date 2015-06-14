@@ -56,7 +56,8 @@ manager."
 (defcustom eyebrowse-lighter " ¬_¬"
   "Lighter for `eyebrowse-mode'."
   :type 'string
-  :group 'eyebrowse)
+  :group 'eyebrowse
+  :risky t)
 
 (defface eyebrowse-mode-line-delimiters
   '((t (nil)))
