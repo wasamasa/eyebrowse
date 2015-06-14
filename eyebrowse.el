@@ -167,6 +167,12 @@ The following format codes are supported:
   :type 'string
   :group 'eyebrowse)
 
+(defcustom eyebrowse-close-window-config-prompt nil
+  "Ask user for confirmation when closing a window config?
+If t, ask for confirmation."
+  :type 'boolean
+  :group 'eyebrowse)
+
 (defvar eyebrowse-mode-map
   (let ((map (make-sparse-keymap)))
     (let ((prefix-map (make-sparse-keymap)))
@@ -360,7 +366,9 @@ This removes it from `eyebrowse-window-configs' and switches to
 another appropriate window config."
   (interactive)
   (let ((window-configs (eyebrowse--get 'window-configs)))
-    (when (> (length window-configs) 1)
+    (when (and (> (length window-configs) 1)
+               (or (not eyebrowse-close-window-config-prompt)
+                   (yes-or-no-p "Close current window config?")))
       (if (equal (assq (eyebrowse--get 'current-slot) window-configs)
                  (car (last window-configs)))
           (eyebrowse-prev-window-config nil)
