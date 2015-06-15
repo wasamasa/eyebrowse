@@ -488,7 +488,12 @@ is detected, extra key bindings will be set up with
          (tag (nth 2 window-config))
          (format-string (if (and tag (> (length tag) 0))
                             eyebrowse-tagged-slot-format
-                          eyebrowse-slot-format)))
+                          eyebrowse-slot-format))
+         ;; NOTE: `format-spec' sets `deactivate-mark' to t which
+         ;; makes `eyebrowse-format-slot' usage in
+         ;; `eyebrowse-mode-line-indicator' always deactivate the mark
+         ;; after activating it as this triggers mode line updates...
+         deactivate-mark)
     (format-spec format-string
                  (format-spec-make ?s slot ?t tag))))
 
