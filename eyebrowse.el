@@ -526,7 +526,7 @@ is detected, extra key bindings will be set up with
                   (caption (eyebrowse-format-slot window-config)))
               (if (= slot current-slot)
                   (propertize caption 'face 'eyebrowse-mode-line-active)
-                caption)))
+                (propertize caption 'face 'eyebrowse-mode-line-inactive))))
           window-configs separator)
          right-delimiter)
       "")))
