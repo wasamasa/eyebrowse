@@ -135,10 +135,11 @@ The two most popular window configuration packages are `elscreen
 <https://github.com/emacsmirror/escreen>`_.  Both are fairly old and
 have their share of bugs.  The closest package I've found so far to
 eyebrowse with workspace-specific buffers would be `perspective
-<https://github.com/nex3/perspective-el>`_.  To have further features
-such as morphing, try `workgroups
-<https://github.com/tlh/workgroups.el>`_ or `workgroups2
-<https://github.com/pashinin/workgroups2>`_.
+<https://github.com/nex3/perspective-el>`_.  `wconf
+<https://github.com/ilohmar/wconf>`_ is a minimal alternative with
+half the lines of code (and features).  To have fancy features such
+as morphing, try `workgroups <https://github.com/tlh/workgroups.el>`_
+or `workgroups2 <https://github.com/pashinin/workgroups2>`_.
 
 Name
 ----
