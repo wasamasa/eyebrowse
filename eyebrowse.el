@@ -260,7 +260,7 @@ This function keeps the sortedness intact."
   (-when-let (match (assq slot (eyebrowse--get 'window-configs)))
     ;; KLUDGE: workaround for #36
     ;; see also http://debbugs.gnu.org/cgi/bugreport.cgi?bug=20848
-    (when (version<= emacs-version "24.5.1")
+    (when (version< emacs-version "25")
       (delete-other-windows)
       (set-window-dedicated-p nil nil))
     (window-state-put (cadr match) (frame-root-window))))
