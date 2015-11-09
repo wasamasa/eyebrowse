@@ -92,7 +92,7 @@ If you're not happy with the default keybindings, a riskier set can be
 enabled additionally either by executing ``M-:
 (eyebrowse-setup-opinionated-keys)`` interactively or inserting
 ``(eyebrowse-setup-opinionated-keys)`` in your init file.  If the
-function detects the `evil <https://gitorious.org/evil>`_ package, it
+function detects the `evil <https://bitbucket.org/lyro/evil/wiki/Home>`_ package, it
 will enable extra key bindings for it as well.
 
 The extra key bindings are:
