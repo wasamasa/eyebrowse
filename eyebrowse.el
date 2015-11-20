@@ -380,8 +380,8 @@ another appropriate window config."
         (eyebrowse-next-window-config nil))
       (eyebrowse--delete-window-config (eyebrowse--get 'last-slot)))))
 
-(defun eyebrowse-rename-window-config (slot)
-  "Rename the window config at SLOT.
+(defun eyebrowse-rename-window-config (slot tag)
+  "Rename the window config at SLOT to TAG.
 When used interactively, default to the current window config,
 use the prefix argument to prompt for a slot or a numerical
 prefix argument to select a slot by its number."
@@ -390,11 +390,12 @@ prefix argument to select a slot by its number."
                        (eyebrowse--read-slot))
                       ((numberp current-prefix-arg)
                        current-prefix-arg)
-                      (t (eyebrowse--get 'current-slot)))))
+                      (t (eyebrowse--get 'current-slot)))
+                     nil))
   (let* ((window-configs (eyebrowse--get 'window-configs))
          (window-config (assoc slot window-configs))
          (current-tag (nth 2 window-config))
-         (tag (read-string "Tag: " current-tag)))
+         (tag (or tag (read-string "Tag: " current-tag))))
     (setf (nth 2 window-config) tag)))
 
 ;; NOTE I've tried out generating the respective commands dynamically
