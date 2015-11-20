@@ -40,7 +40,7 @@
 (require 'format-spec)
 
 
-;; variables
+;;; variables
 
 (defgroup eyebrowse nil
   "A window configuration switcher modeled after the ranger file
@@ -197,7 +197,7 @@ If t, ask for confirmation."
   "Initial key map for `eyebrowse-mode'.")
 
 
-;; functions
+;;; functions
 
 (defun eyebrowse--get (type &optional frame)
   "Retrieve frame-specific value of TYPE.
