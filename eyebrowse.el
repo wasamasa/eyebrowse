@@ -53,12 +53,6 @@ manager."
   :type 'string
   :group 'eyebrowse)
 
-(defcustom eyebrowse-lighter " ¬_¬"
-  "Lighter for `eyebrowse-mode'."
-  :type 'string
-  :group 'eyebrowse
-  :risky t)
-
 (defface eyebrowse-mode-line-delimiters
   '((t (nil)))
   "Face for the mode line indicator delimiters."
@@ -538,7 +532,6 @@ is detected, extra key bindings will be set up with
 This global minor mode provides a set of keybindings for
 switching window configurations.  It tries mimicking the tab
 behaviour of `ranger`, a file manager."
-  :lighter eyebrowse-lighter
   :keymap eyebrowse-mode-map
   :global t
   (if eyebrowse-mode
