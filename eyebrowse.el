@@ -1,6 +1,6 @@
 ;;; eyebrowse.el --- Easy window config switching
 
-;; Copyright (C) 2014-2015 Vasilij Schneidermann <v.schneidermann@gmail.com>
+;; Copyright (C) 2014-2016 Vasilij Schneidermann <v.schneidermann@gmail.com>
 
 ;; Author: Vasilij Schneidermann <v.schneidermann@gmail.com>
 ;; URL: https://github.com/wasamasa/eyebrowse
