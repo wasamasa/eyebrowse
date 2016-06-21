@@ -1,4 +1,4 @@
-;;; eyebrowse.el --- Easy window config switching
+;;; eyebrowse.el --- Easy window config switching  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014-2016 Vasilij Schneidermann <v.schneidermann@gmail.com>
 
@@ -517,11 +517,21 @@ is detected, extra key bindings will be set up with
          left-delimiter
          (mapconcat
           (lambda (window-config)
-            (let ((slot (car window-config))
-                  (caption (eyebrowse-format-slot window-config)))
-              (if (= slot current-slot)
-                  (propertize caption 'face 'eyebrowse-mode-line-active)
-                (propertize caption 'face 'eyebrowse-mode-line-inactive))))
+            (let* ((slot (car window-config))
+                   (face (if (= slot current-slot)
+                             'eyebrowse-mode-line-active
+                           'eyebrowse-mode-line-inactive))
+                   (keymap
+                    (let ((map (make-sparse-keymap)))
+                      (define-key map (kbd "<mode-line><mouse-1>")
+                        (lambda (e)
+                          (interactive "e")
+                          (eyebrowse-switch-to-window-config slot)))
+                      map))
+                   (caption (eyebrowse-format-slot window-config)))
+              (propertize caption 'face face 'slot slot
+                          'mouse-face 'mode-line-highlight
+                          'local-map keymap)))
           window-configs separator)
          right-delimiter)
       "")))
