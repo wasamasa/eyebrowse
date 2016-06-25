@@ -186,6 +186,8 @@ If t, ask for confirmation."
       (define-key prefix-map (kbd "7") 'eyebrowse-switch-to-window-config-7)
       (define-key prefix-map (kbd "8") 'eyebrowse-switch-to-window-config-8)
       (define-key prefix-map (kbd "9") 'eyebrowse-switch-to-window-config-9)
+      (define-key prefix-map (kbd "c") 'eyebrowse-create-window-config)
+      (define-key prefix-map (kbd "C-c") 'eyebrowse-create-window-config)
       (define-key map eyebrowse-keymap-prefix prefix-map))
     map)
   "Initial key map for `eyebrowse-mode'.")
@@ -448,6 +450,30 @@ prefix argument to select a slot by its number."
   "Switch to window configuration 9."
   (interactive)
   (eyebrowse-switch-to-window-config 9))
+
+(defun eyebrowse-free-slot (slots)
+  "Returns a yet unoccupied slot.
+The specific behaviour is tmux-like."
+  (let ((min (car slots)))
+    (if (> min 1)
+        1
+      (let (last cur done)
+        (while (and slots (not done))
+          (setq last (car slots)
+                cur (cadr slots))
+          (when (and last cur
+                     (> (- cur last) 1))
+            (setq done t))
+          (setq slots (cdr slots)))
+        (1+ last)))))
+
+(defun eyebrowse-create-window-config ()
+  "Creates a window config at a yet unoccupied slot."
+  (interactive)
+  (let* ((window-configs (eyebrowse--get 'window-configs))
+         (slots (mapcar 'car window-configs))
+         (slot (eyebrowse-free-slot slots)))
+    (eyebrowse-switch-to-window-config slot)))
 
 ;;;###autoload
 (defun eyebrowse-setup-evil-keys ()
