@@ -528,10 +528,12 @@ is detected, extra key bindings will be set up with
                           (interactive "e")
                           (eyebrowse-switch-to-window-config slot)))
                       map))
+                   (help-echo "mouse-1: Switch to indicated workspace")
                    (caption (eyebrowse-format-slot window-config)))
               (propertize caption 'face face 'slot slot
                           'mouse-face 'mode-line-highlight
-                          'local-map keymap)))
+                          'local-map keymap
+                          'help-echo help-echo)))
           window-configs separator)
          right-delimiter)
       "")))
