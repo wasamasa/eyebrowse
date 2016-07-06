@@ -119,6 +119,23 @@ structure for you and does it in a slightly different manner (see
 allow for features like persistency in combination with `desktop.el
 <https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html#Saving-Emacs-Sessions>`_.
 
+Notes
+-----
+
+The ``window-state-put`` and ``window-state-get`` functions do not
+save all window parameters.  If you use features like side windows
+that store the window parameters ``window-side`` and ``window-slot``,
+you will need to customize ``window-persistent-parameters`` for them
+to be saved as well:
+
+.. code:: elisp
+
+    (add-to-list 'window-persistent-parameters '(window-side . writable))
+    (add-to-list 'window-persistent-parameters '(window-slot . writable))
+
+See `#52 <https://github.com/wasamasa/eyebrowse/issues/52>`_ for
+further discussion.
+
 Contributing
 ------------
 
