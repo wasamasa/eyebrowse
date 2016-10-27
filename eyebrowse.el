@@ -259,7 +259,10 @@ This function keeps the sortedness intact."
     (when (version< emacs-version "25")
       (delete-other-windows)
       (set-window-dedicated-p nil nil))
-    (window-state-put (cadr match) (frame-root-window))))
+    ;; KLUDGE: workaround for visual-fill-column foolishly
+    ;; setting the split-window parameter
+    (let ((ignore-window-parameters t))
+      (window-state-put (cadr match) (frame-root-window)))))
 
 (defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
