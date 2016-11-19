@@ -262,7 +262,7 @@ This function keeps the sortedness intact."
     ;; KLUDGE: workaround for visual-fill-column foolishly
     ;; setting the split-window parameter
     (let ((ignore-window-parameters t))
-      (window-state-put (cadr match) (frame-root-window)))))
+      (window-state-put (cadr match) (frame-root-window) 'safe))))
 
 (defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
