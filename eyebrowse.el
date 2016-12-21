@@ -137,6 +137,7 @@ t: Clean up and display the scratch buffer."
   "Hook run before switching to a window config."
   :type 'hook
   :group 'eyebrowse)
+(add-hook 'eyebrowse-pre-window-switch-hook 'deactivate-mark)
 
 (defcustom eyebrowse-post-window-switch-hook nil
   "Hook run after switching to a window config."
