@@ -252,6 +252,23 @@ This function keeps the sortedness intact."
   "Returns a window config list appliable for SLOT."
   (list slot (window-state-get nil t) tag))
 
+(defun eyebrowse--fixup-window-config (window-config)
+  "Walk through WINDOW-CONFIG and fix it up destructively.
+If a no longer existent buffer is encountered, it is replaced
+with the scratch buffer."
+  (dolist (item window-config)
+    (when (consp item)
+      (cond
+       ((eq (car item) 'buffer)
+        (let* ((buffer-name (cadr item))
+               (buffer (get-buffer buffer-name)))
+          (when (not buffer)
+            (message "Replaced deleted %s buffer with *scratch*" buffer-name)
+            (setf (cadr item) "*scratch*"))))
+       ((consp (cdr item))
+        (eyebrowse--fixup-window-config (cdr item))))))
+  window-config)
+
 (defun eyebrowse--load-window-config (slot)
   "Restore the window config from SLOT."
   (-when-let (match (assq slot (eyebrowse--get 'window-configs)))
@@ -262,8 +279,9 @@ This function keeps the sortedness intact."
       (set-window-dedicated-p nil nil))
     ;; KLUDGE: workaround for visual-fill-column foolishly
     ;; setting the split-window parameter
-    (let ((ignore-window-parameters t))
-      (window-state-put (cadr match) (frame-root-window) 'safe))))
+    (let ((ignore-window-parameters t)
+          (window-config (eyebrowse--fixup-window-config (cadr match))))
+      (window-state-put window-config (frame-root-window) 'safe))))
 
 (defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
