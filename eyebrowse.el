@@ -283,15 +283,26 @@ with the scratch buffer."
           (window-config (eyebrowse--fixup-window-config (cadr match))))
       (window-state-put window-config (frame-root-window) 'safe))))
 
+(defun eyebrowse--string-to-number (x)
+  "Version of `string-to-number' that returns nil if not a number."
+  (let ((result (string-to-number x)))
+    (if (and (zerop result)
+             (not (string-match-p (rx bos (* white) "0") x)))
+        nil
+      result)))
+
 (defun eyebrowse--read-slot ()
   "Read in a window config SLOT to switch to.
-A formatted list of window configs is presented as candidates."
+A formatted list of window configs is presented as candidates.
+If no match was found, the user input is interpreted as a new
+slot to switch to."
   (let* ((candidates (--map (cons (eyebrowse-format-slot it)
                                   (car it))
                             (eyebrowse--get 'window-configs)))
-         (candidate (completing-read
-                     "Enter slot: " candidates nil t)))
-    (cdr (assoc candidate candidates))))
+         (candidate (completing-read "Enter slot: " candidates))
+         (choice (cdr (assoc candidate candidates))))
+    (or choice (eyebrowse--string-to-number candidate)
+        (user-error "Invalid slot number"))))
 
 (defun eyebrowse-switch-to-window-config (slot)
   "Switch to the window config SLOT.
