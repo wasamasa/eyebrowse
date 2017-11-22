@@ -252,22 +252,49 @@ This function keeps the sortedness intact."
   "Returns a window config list appliable for SLOT."
   (list slot (window-state-get nil t) tag))
 
+(defun eyebrowse--walk-window-config (window-config function)
+  "Walk through WINDOW-CONFIG and apply FUNCTION to each leaf."
+  (dolist (item window-config)
+    (when (consp item)
+      (when (symbolp (car item))
+        (funcall function item))
+      (when (consp (cdr item))
+        (eyebrowse--walk-window-config (cdr item) function)))))
+
 (defun eyebrowse--fixup-window-config (window-config)
   "Walk through WINDOW-CONFIG and fix it up destructively.
 If a no longer existent buffer is encountered, it is replaced
 with the scratch buffer."
-  (dolist (item window-config)
-    (when (consp item)
-      (cond
-       ((eq (car item) 'buffer)
-        (let* ((buffer-name (cadr item))
-               (buffer (get-buffer buffer-name)))
-          (when (not buffer)
-            (message "Replaced deleted %s buffer with *scratch*" buffer-name)
-            (setf (cadr item) "*scratch*"))))
-       ((consp (cdr item))
-        (eyebrowse--fixup-window-config (cdr item))))))
-  window-config)
+  (eyebrowse--walk-window-config
+   window-config
+   (lambda (item)
+     (when (eq (car item) 'buffer)
+       (let* ((buffer-name (cadr item))
+              (buffer (get-buffer buffer-name)))
+         (when (not buffer)
+           (message "Replaced deleted %s buffer with *scratch*" buffer-name)
+           (setf (cadr item) "*scratch*")))))))
+
+(defun eyebrowse--rename-window-config-buffers (window-config old new)
+  "Walk through WINDOW-CONFIG and rename buffers when appropriate.
+If a buffer name equal to OLD is found, it is replaced with NEW."
+  (eyebrowse--walk-window-config
+   window-config
+   (lambda (item)
+     (when (eq (car item) 'buffer)
+       (let ((buffer-name (cadr item)))
+         (when (equal buffer-name old)
+           (setf (cadr item) new)))))))
+
+(defadvice rename-buffer (around eyebrowse-fixup-window-configs activate)
+  "Replace buffer names in all window configs."
+  (let ((old (buffer-name)))
+    ad-do-it
+    (let ((new ad-return-value))
+      (dolist (frame (frame-list))
+        (dolist (window-config (eyebrowse--get 'window-configs frame))
+          (eyebrowse--rename-window-config-buffers window-config old new))))
+    ad-return-value))
 
 (defun eyebrowse--load-window-config (slot)
   "Restore the window config from SLOT."
@@ -280,7 +307,8 @@ with the scratch buffer."
     ;; KLUDGE: workaround for visual-fill-column foolishly
     ;; setting the split-window parameter
     (let ((ignore-window-parameters t)
-          (window-config (eyebrowse--fixup-window-config (cadr match))))
+          (window-config (cadr match)))
+      (eyebrowse--fixup-window-config window-config)
       (window-state-put window-config (frame-root-window) 'safe))))
 
 (defun eyebrowse--string-to-number (x)
