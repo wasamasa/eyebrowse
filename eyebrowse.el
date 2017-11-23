@@ -252,13 +252,18 @@ This function keeps the sortedness intact."
   "Returns a window config list appliable for SLOT."
   (list slot (window-state-get nil t) tag))
 
+(defun eyebrowse--dotted-list-p (list)
+  "Non-nil if LIST is terminated by a non-nil value."
+  (cdr (last list)))
+
 (defun eyebrowse--walk-window-config (window-config function)
   "Walk through WINDOW-CONFIG and apply FUNCTION to each leaf."
   (dolist (item window-config)
     (when (consp item)
       (when (symbolp (car item))
         (funcall function item))
-      (when (consp (cdr item))
+      (when (and (consp (cdr item))
+                 (not (eyebrowse--dotted-list-p (cdr item))))
         (eyebrowse--walk-window-config (cdr item) function)))))
 
 (defun eyebrowse--fixup-window-config (window-config)
