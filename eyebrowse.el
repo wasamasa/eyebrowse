@@ -144,6 +144,11 @@ t: Clean up and display the scratch buffer."
   :type 'hook
   :group 'eyebrowse)
 
+(defcustom eyebrowse-default-workspace-slot 1
+  "Slot number assigned to the default workspace."
+  :type 'integer
+  :group 'eyebrowse)
+
 (defcustom eyebrowse-slot-format "%s"
   "Format string for untagged slots.
 The following format codes are supported:
@@ -224,10 +229,11 @@ If FRAME is nil, use current frame.  TYPE can be any of
 (defun eyebrowse-init (&optional frame)
   "Initialize Eyebrowse for the current frame."
   (unless (eyebrowse--get 'window-configs frame)
-    (eyebrowse--set 'last-slot 1 frame)
-    (eyebrowse--set 'current-slot 1 frame)
+    (eyebrowse--set 'last-slot eyebrowse-default-workspace-slot frame)
+    (eyebrowse--set 'current-slot eyebrowse-default-workspace-slot frame)
     (eyebrowse--insert-in-window-config-list
-     (eyebrowse--current-window-config 1 "") frame)))
+     (eyebrowse--current-window-config eyebrowse-default-workspace-slot "")
+     frame)))
 
 (defun eyebrowse--update-window-config-element (new-element)
   "Replace the old element with NEW-ELEMENT in the window config list.
