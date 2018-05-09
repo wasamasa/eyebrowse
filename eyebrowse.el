@@ -173,6 +173,12 @@ If t, ask for confirmation."
   :type 'boolean
   :group 'eyebrowse)
 
+(defcustom eyebrowse-indicator-position 'misc-info
+  "Indicator position in the Mode Line"
+  :type '(choice (const :tag "beginning" start)
+                 (const :tag "miscellaneous information" misc-info))
+  :group 'eyebrowse)
+
 (defvar eyebrowse-mode-map
   (let ((map (make-sparse-keymap)))
     (let ((prefix-map (make-sparse-keymap)))
@@ -636,6 +642,18 @@ is detected, extra key bindings will be set up with
          right-delimiter)
       "")))
 
+(defun eyebrowse-mode-line-indicator-init ()
+  "Insert eyebrowse to mode line"
+
+  (pcase eyebrowse-indicator-position
+    ('start (unless (assoc 'eyebrowse-mode mode-line-format)
+              (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+                    mode-line-format)))
+
+    ('misc-info (unless (assoc 'eyebrowse-mode (cdr (last mode-line-misc-info)))
+                  (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+                        (cdr (last mode-line-misc-info)))))))
+
 ;;;###autoload
 (define-minor-mode eyebrowse-mode
   "Toggle `eyebrowse-mode'.
@@ -651,9 +669,7 @@ behaviour of `ranger`, a file manager."
         ;; emacs and emacsclient
         (eyebrowse-init)
         (add-hook 'after-make-frame-functions 'eyebrowse-init)
-        (unless (assoc 'eyebrowse-mode mode-line-misc-info)
-          (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-                (cdr (last mode-line-misc-info)))))
+        (eyebrowse-mode-line-indicator-init))
     (remove-hook 'after-make-frame-functions 'eyebrowse-init)))
 
 (provide 'eyebrowse)
