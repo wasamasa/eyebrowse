@@ -86,7 +86,9 @@ buffer in it).
 The prefix for each binding defaults to ``C-c C-w``, but you can change
 it to something else by customizing ``eyebrowse-keymap-prefix``.  If
 you want to change it in your init file, insert the customization
-before enabling ``eyebrowse-mode``.
+before loading ``eyebrowse.el``.  This includes enabling it with an
+auto-loaded function, such as ``eyebrowse-setup-evil-keys``,
+``eyebrowse-setup-opinionated-keys`` or ``eyebrowse-mode``.
 
 If you're not happy with the default keybindings, a riskier set can be
 enabled additionally either by executing ``M-:
