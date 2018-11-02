@@ -48,11 +48,6 @@ manager."
   :group 'convenience
   :prefix "eyebrowse-")
 
-(defcustom eyebrowse-keymap-prefix (kbd "C-c C-w")
-  "Prefix key for key-bindings."
-  :type 'string
-  :group 'eyebrowse)
-
 (defface eyebrowse-mode-line-delimiters
   '((t (nil)))
   "Face for the mode line indicator delimiters."
@@ -173,33 +168,35 @@ If t, ask for confirmation."
   :type 'boolean
   :group 'eyebrowse)
 
-(defvar eyebrowse-mode-map
-  (let ((map (make-sparse-keymap))
-        (prefix-map (make-sparse-keymap)))
-    (define-key prefix-map (kbd "<") 'eyebrowse-prev-window-config)
-    (define-key prefix-map (kbd ">") 'eyebrowse-next-window-config)
-    (define-key prefix-map (kbd "'") 'eyebrowse-last-window-config)
-    (define-key prefix-map (kbd "\"") 'eyebrowse-close-window-config)
-    (define-key prefix-map (kbd ",") 'eyebrowse-rename-window-config)
-    (define-key prefix-map (kbd ".") 'eyebrowse-switch-to-window-config)
-    (define-key prefix-map (kbd "0") 'eyebrowse-switch-to-window-config-0)
-    (define-key prefix-map (kbd "1") 'eyebrowse-switch-to-window-config-1)
-    (define-key prefix-map (kbd "2") 'eyebrowse-switch-to-window-config-2)
-    (define-key prefix-map (kbd "3") 'eyebrowse-switch-to-window-config-3)
-    (define-key prefix-map (kbd "4") 'eyebrowse-switch-to-window-config-4)
-    (define-key prefix-map (kbd "5") 'eyebrowse-switch-to-window-config-5)
-    (define-key prefix-map (kbd "6") 'eyebrowse-switch-to-window-config-6)
-    (define-key prefix-map (kbd "7") 'eyebrowse-switch-to-window-config-7)
-    (define-key prefix-map (kbd "8") 'eyebrowse-switch-to-window-config-8)
-    (define-key prefix-map (kbd "9") 'eyebrowse-switch-to-window-config-9)
-    (define-key prefix-map (kbd "c") 'eyebrowse-create-window-config)
-    (define-key prefix-map (kbd "C-c") 'eyebrowse-create-window-config)
-    (define-key map eyebrowse-keymap-prefix prefix-map)
-    map)
+(defvar eyebrowse-mode-map (make-sparse-keymap)
   "Initial key map for `eyebrowse-mode'.")
 
 
 ;;; functions
+
+(defun eyebrowse--load-prefix-map ()
+  "Initialize key bindings"
+  (define-prefix-command 'eyebrowse-command-map)
+  (define-key eyebrowse-mode-map (kbd "C-c C-w") 'eyebrowse-command-map)
+  (define-key eyebrowse-command-map (kbd "<") 'eyebrowse-prev-window-config)
+  (define-key eyebrowse-command-map (kbd ">") 'eyebrowse-next-window-config)
+  (define-key eyebrowse-command-map (kbd "'") 'eyebrowse-last-window-config)
+  (define-key eyebrowse-command-map (kbd "\"") 'eyebrowse-close-window-config)
+  (define-key eyebrowse-command-map (kbd ",") 'eyebrowse-rename-window-config)
+  (define-key eyebrowse-command-map (kbd ".") 'eyebrowse-switch-to-window-config)
+  (define-key eyebrowse-command-map (kbd "0") 'eyebrowse-switch-to-window-config-0)
+  (define-key eyebrowse-command-map (kbd "1") 'eyebrowse-switch-to-window-config-1)
+  (define-key eyebrowse-command-map (kbd "2") 'eyebrowse-switch-to-window-config-2)
+  (define-key eyebrowse-command-map (kbd "3") 'eyebrowse-switch-to-window-config-3)
+  (define-key eyebrowse-command-map (kbd "4") 'eyebrowse-switch-to-window-config-4)
+  (define-key eyebrowse-command-map (kbd "5") 'eyebrowse-switch-to-window-config-5)
+  (define-key eyebrowse-command-map (kbd "6") 'eyebrowse-switch-to-window-config-6)
+  (define-key eyebrowse-command-map (kbd "7") 'eyebrowse-switch-to-window-config-7)
+  (define-key eyebrowse-command-map (kbd "8") 'eyebrowse-switch-to-window-config-8)
+  (define-key eyebrowse-command-map (kbd "9") 'eyebrowse-switch-to-window-config-9)
+  (define-key eyebrowse-command-map (kbd "c") 'eyebrowse-create-window-config)
+  (define-key eyebrowse-command-map (kbd "C-c") 'eyebrowse-create-window-config))
+
 
 (defun eyebrowse--get (type &optional frame)
   "Retrieve frame-specific value of TYPE.
@@ -652,6 +649,7 @@ behaviour of `ranger`, a file manager."
         ;; started and after frame creation to make it work for both
         ;; emacs and emacsclient
         (eyebrowse-init)
+        (eyebrowse--load-prefix-map)
         (add-hook 'after-make-frame-functions 'eyebrowse-init)
         (unless (assoc 'eyebrowse-mode mode-line-misc-info)
           (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
