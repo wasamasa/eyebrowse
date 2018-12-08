@@ -10,7 +10,7 @@ About
 manage your window configurations in a simple manner, just like tiling
 window managers like i3wm with their workspaces do.  It displays their
 current state in the modeline by default.  The behaviour is modeled
-after `ranger <http://ranger.nongnu.org/>`_, a file manager written in
+after `ranger <https://ranger.github.io/>`_, a file manager written in
 Python.
 
 Screenshot
