@@ -611,7 +611,7 @@ will be set up with `eyebrowse-setup-evil-keys' as well."
                                 'face 'eyebrowse-mode-line-separator))
          (current-slot (eyebrowse--get 'current-slot))
          (window-configs (if (eq eyebrowse-mode-line-style 'current)
-                             `(,(nth (- (eyebrowse--get 'current-slot) 1) (eyebrowse--get 'window-configs)))
+                             `(,(nth (- current-slot 1) (eyebrowse--get 'window-configs)))
                            (eyebrowse--get 'window-configs))))
     (if (and eyebrowse-mode-line-style
              (not (eq eyebrowse-mode-line-style 'hide))
