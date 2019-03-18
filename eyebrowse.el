@@ -95,10 +95,13 @@ nil, 'hide: Don't show at all.
 
 'smart: Hide when only one window config.
 
+'current: Only show current config.
+
 t, 'always: Always show."
   :type '(choice (const :tag "Hide" hide)
                  (const :tag "Smart" smart)
-                 (const :tag "Always" always))
+                 (const :tag "Always" always)
+                 (const :tag "Current" current))
   :group 'eyebrowse)
 
 (defcustom eyebrowse-wrap-around nil
@@ -607,7 +610,9 @@ will be set up with `eyebrowse-setup-evil-keys' as well."
          (separator (propertize eyebrowse-mode-line-separator
                                 'face 'eyebrowse-mode-line-separator))
          (current-slot (eyebrowse--get 'current-slot))
-         (window-configs (eyebrowse--get 'window-configs)))
+         (window-configs (if (eq eyebrowse-mode-line-style 'current)
+                             `(,(nth (- (eyebrowse--get 'current-slot) 1) (eyebrowse--get 'window-configs)))
+                           (eyebrowse--get 'window-configs))))
     (if (and eyebrowse-mode-line-style
              (not (eq eyebrowse-mode-line-style 'hide))
              (or (and (not (eq eyebrowse-mode-line-style 'smart))
