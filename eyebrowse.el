@@ -550,6 +550,38 @@ The specific behaviour is tmux-like."
          (slot (eyebrowse-free-slot slots)))
     (eyebrowse-switch-to-window-config slot)))
 
+(defun eyebrowse-create-window-config-with-tag ()
+  "Create window config with tag."
+  (interactive)
+  (let ((tag (read-string "Tag: ")))
+    (eyebrowse-create-window-config)
+    (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) tag)))
+
+(defun eyebrowse-create-projectile-window-config ()
+  "Create window config for project."
+  (interactive)
+  (require 'projectile)
+  (let* ((inhibit-quit t)
+         (project-name (with-local-quit (projectile-switch-project))))
+    (eyebrowse-create-window-config)
+    (if (> (length project-name) 0)
+        (eyebrowse-rename-window-config
+         (eyebrowse--get 'current-slot)
+         (file-name-nondirectory (directory-file-name project-name)))
+      (progn
+        (eyebrowse-close-window-config)
+        (setq quit-flag nil)))))
+
+(defun eyebrowse-close-other-window-configs ()
+  "Close other window configs."
+  (interactive)
+  (when (or (not eyebrowse-close-window-config-prompt)
+            (yes-or-no-p "Close other window configs?"))
+    (mapcar #'eyebrowse--delete-window-config
+            (mapcar #'car
+                    (assq-delete-all (eyebrowse--get 'current-slot)
+                                     (eyebrowse--get 'window-configs))))))
+
 (defvar evil-motion-state-map)
 
 ;;;###autoload
