@@ -578,9 +578,8 @@ The specific behaviour is tmux-like."
   (when (or (not eyebrowse-close-window-config-prompt)
             (yes-or-no-p "Close other window configs?"))
     (mapcar #'eyebrowse--delete-window-config
-            (mapcar #'car
-                    (assq-delete-all (eyebrowse--get 'current-slot)
-                                     (eyebrowse--get 'window-configs))))))
+            (remove (eyebrowse--get 'current-slot)
+                    (mapcar #'car (eyebrowse--get 'window-configs))))))
 
 (defvar evil-motion-state-map)
 
