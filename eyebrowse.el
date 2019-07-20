@@ -286,7 +286,8 @@ with the scratch buffer."
        (let* ((buffer-name (cadr item))
               (buffer (get-buffer buffer-name)))
          (when (not buffer)
-           (message "Replaced deleted %s buffer with *scratch*" buffer-name)
+           (let ((inhibit-message t))
+             (message "Replaced deleted %s buffer with *scratch*" buffer-name))
            (setf (cadr item) "*scratch*")))))))
 
 (defun eyebrowse--rename-window-config-buffers (window-config old new)
