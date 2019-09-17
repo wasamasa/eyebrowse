@@ -152,6 +152,11 @@ t: Clean up and display the scratch buffer."
   :type 'hook
   :group 'eyebrowse)
 
+(defcustom eyebrowse-post-window-delete-hook nil
+  "Hook run after deleting a window config."
+  :type 'hook
+  :group 'eyebrowse)
+
 (defcustom eyebrowse-default-workspace-slot 1
   "Slot number assigned to the default workspace."
   :type 'integer
@@ -455,7 +460,8 @@ another appropriate window config."
           (eyebrowse-prev-window-config nil)
         (eyebrowse-next-window-config nil))
       (run-hooks 'eyebrowse-pre-window-delete-hook)
-      (eyebrowse--delete-window-config (eyebrowse--get 'last-slot)))))
+      (eyebrowse--delete-window-config (eyebrowse--get 'last-slot))
+      (run-hooks 'eyebrowse-post-window-delete-hook))))
 
 (defun eyebrowse-rename-window-config (slot tag)
   "Rename the window config at SLOT to TAG.
